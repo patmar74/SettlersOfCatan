@@ -43,7 +43,7 @@ public class ResourceBank {
 	}
 	/**
 	 * Used by the drawSource method to reduce redundancy
-	 * @param the respective bank arraylist
+	 * @param bank respective bank arraylist
 	 * @return the card drawn, or null if no card is available to be drawn
 	 */
 	private ResourceType drawFromBank(ArrayList<ResourceType> bank){
@@ -82,23 +82,35 @@ public class ResourceBank {
 	 * Returns the card to the proper bank
 	 * @param type Resource card type
 	 */
-	public void returnToBank(ResourceType type){
-		switch(type){
-			case WOOL:
-				woolBank.add(type);
-   				break;
-			case ORE:
-				oreBank.add(type);
-				break;
-			case LUMBER:
-				lumberBank.add(type);
-   				break;
-			case BRICK:
-				brickBank.add(type);
-    			break;
-			case WHEAT:
-				wheatBank.add(type);
-				break;
-		}
-	}
+	public void returnToBank(ResourceType type) {
+        switch (type) {
+            case WOOL:
+                woolBank.add(type);
+                break;
+            case ORE:
+                oreBank.add(type);
+                break;
+            case LUMBER:
+                lumberBank.add(type);
+                break;
+            case BRICK:
+                brickBank.add(type);
+                break;
+            case WHEAT:
+                wheatBank.add(type);
+                break;
+        }
+
+    }
+    /**
+     * Outputs to the console the number of resources in each deck
+     */
+    public void getAllBankStats(){
+        System.out.print("Wool:" + woolBank.size() + ", ");
+        System.out.print("Ore:" + oreBank.size() + ", ");
+        System.out.print("Wheat:" + wheatBank.size() + ", ");
+        System.out.print("Lumber:" + lumberBank.size() + ", ");
+        System.out.print("Brick:" + brickBank.size() + "\n");
+    }
+
 }

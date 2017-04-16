@@ -18,14 +18,14 @@ public class Person {
 	// The players' individual colors are held in an enum in the same project.
 	private int points;
 	private String name;
-	private ArrayList<Settlement> settlements;
+	private ArrayList<Settlement> settlements = new ArrayList<>();
 	//ToDo remove comment once road is available
 	//private ArrayList<road> roads;
 	private int playerTurn;
-	private ArrayList<DevCard> devCards;
+	private ArrayList<DevCard> devCards = new ArrayList<>();
 
 	// Arraylist of resource cards player has in their hand
-	private ArrayList<ResourceType> hand;
+	private ArrayList<ResourceType> hand = new ArrayList<>();
 
     /**
      * Constructor gives a player name, player color, and initializes 4 player settlements, and 15 roads

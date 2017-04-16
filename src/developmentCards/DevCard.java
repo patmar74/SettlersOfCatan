@@ -60,12 +60,13 @@ public class DevCard {
      * Overloaded do action method for the Year of Plenty Dev card
      * Player will select two resources and gain them from the banker
      * @param player
-     * @param firstRequest
-     * @param secondRequest
+     * @param firstRequest First resource type that the player wants to gain
+     * @param secondRequest Second resource type that the player wants to gain,
+     *                      this can be the same as the firstRequest
      */
     public void doAction(Person player, ResourceType firstRequest, ResourceType secondRequest, Banker myBanker){
-        myBanker.giveResource(player,firstRequest);
-        myBanker.giveResource(player, secondRequest);
+        myBanker.giveResource(player,firstRequest,1);
+        myBanker.giveResource(player, secondRequest,1);
     }
 
     /**

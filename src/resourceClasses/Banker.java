@@ -23,9 +23,11 @@ public class Banker {
      * @param player
      * @param type
      */
-	public void giveResource(Person player, ResourceType type){
-	    myBank.drawResource(type);
-	    player.addResource(type);
+	public void giveResource(Person player, ResourceType type, int qty){
+		for(int i = 0; i<qty; i++) {
+			myBank.drawResource(type);
+			player.addResource(type);
+		}
     }
 
     /**
@@ -33,9 +35,11 @@ public class Banker {
      * @param player
      * @param type
      */
-    public void returnResource(Person player, ResourceType type){
-	    player.removeResource(type);
-	    myBank.returnToBank(type);
+    public void returnResource(Person player, ResourceType type, int qty){
+	    for(int i = 0; i<qty; i++) {
+            player.removeResource(type);
+            myBank.returnToBank(type);
+        }
     }
 	/**
 	 * Facilitates trade between players
@@ -62,10 +66,11 @@ public class Banker {
 	
 	/**
 	 * Facilitates marine trade
-	 * @param player
-	 * @param offering resourceClasses.ResourceType
-	 * @param requestedType
-	 * @return tradeSuccessful
+	 * @param player Person The player doing the trade
+	 * @param offering ResourceType The resource card type that the player will give up
+	 * @param requestedType ResourceType The resource card that the player is trading for
+     * @param quantityNeeded int The number of resource cards to start the trade
+	 * @return True if trade was successful
 	 */
 	public boolean marineTrade(Person player, ResourceType offering, ResourceType requestedType, int quantityNeeded){
 		boolean tradeSuccessful = true; 
@@ -77,7 +82,8 @@ public class Banker {
 				player.addResource(myType);// draws the requested resource from the bank and adds it to the players hand
 				for (int i = 0; i < quantityNeeded; i++) {
 					player.removeResource(offering);
-				} 
+				}
+				returnResource(player, offering, quantityNeeded); // returns player's portion of the trade to the bank
 			}else{
 				tradeSuccessful = false; // bank does not have the resources so trade fails
 			}
@@ -89,22 +95,23 @@ public class Banker {
 	
 	/**
 	 * Universal trade which is 4 of a specific type for any one resource from the bank
-	 * @param player
-	 * @param offering
-	 * @param requestedType
-	 * @return
+	 * @param player Person The player doing the trade
+	 * @param offering ResourceType The resource card type that the player will give up
+	 * @param requestedType ResourceType The resource card that the player is trading for
+	 * @return True if trade was successful
 	 */
 	public boolean universalTrade(Person player, ResourceType offering, ResourceType requestedType){
 		boolean tradeSuccessful = true; 
 		// if player has the necessary resources then check that 
 		if (checkRemovePossible(player, offering, 4)){
-			ResourceType myType = myBank.drawResource(requestedType);
+			ResourceType myType = myBank.drawResource(requestedType); // drawResource returns null if the deck was empty
 			// if bank does not have enough resources for the trade then the trade fails
-			if (myType != null){
+			if (myType instanceof ResourceType){
 				player.addResource(myType);// draws the requested resource from the bank and adds it to the players hand
 				for (int i = 0; i < 4; i++) {
 					player.removeResource(offering);
-				} 
+				}
+				returnResource(player,offering,4); // returns the player's portion of the universal trade to the bank
 			}else{
 				tradeSuccessful = false; // bank does not have the resources so trade fails
 			}
@@ -137,6 +144,15 @@ public class Banker {
 			return false;
 		}
 		
+	}
+
+	/**
+	 * Gets Resource Bank Object. This is not for production code.
+	 * Only used to test the Banker class.
+	 * @return
+	 */
+	public ResourceBank getResourceBank(){
+		return myBank;
 	}
 
 }//end Class
