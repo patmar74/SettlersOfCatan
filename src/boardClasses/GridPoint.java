@@ -2,8 +2,6 @@ package boardClasses;
 
 import players.Settlement;
 
-import java.util.Set;
-
 /**
  * @author Patrick Martin
  * GridPoint is a point on the grid for the game board
