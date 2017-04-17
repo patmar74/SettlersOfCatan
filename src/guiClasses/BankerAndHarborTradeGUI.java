@@ -1,4 +1,4 @@
-package resourceClasses;
+package guiClasses;
 
 import java.awt.BorderLayout;
 import java.awt.EventQueue;
@@ -16,8 +16,9 @@ import javax.swing.JOptionPane;
 import javax.swing.JPanel;
 import javax.swing.JTextField;
 
-import otherPeoplesFiles.Person;
-import otherPeoplesFiles.ResourceType;
+
+import players.Person;
+import resourceClasses.ResourceType;
 
 /**
  * This GUI handles all port trades and banker trades and displays a summary of

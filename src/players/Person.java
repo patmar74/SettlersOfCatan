@@ -146,12 +146,28 @@ public class Person {
         return qtyAvailable>=qty;
     }
 
+    /**
+     * Get the number of a specific resource in the player's hand.
+     * This is useful to the GUI so that the values can be updated.
+     * @param resource ResourceType The resource type that is being totaled
+     * @return int The number of resource cards in the player's hand that are of selected type.
+     */
+    public int getNumberInHand(ResourceType resource){
+        int numberInHand=0;
+        for(ResourceType card:hand){
+            if(card.equals(resource)){
+                numberInHand++;
+            }
+        }
+        return numberInHand;
+    }
 
-	public ArrayList<Settlement> getPlayerSettlement() {
+
+	public ArrayList<Settlement> getPlayerSettlements() {
 		return settlements;
 	}
 
-	public void setPlayerSettlement(ArrayList<Settlement> settlements) {
+	public void setPlayerSettlements(ArrayList<Settlement> settlements) {
 		this.settlements = settlements;
 	}
 //ToDo add get road method
@@ -167,64 +183,64 @@ public class Person {
 		return playerColor.toString();
 	}
 
-	//
+	// Takes in an enum of type players.playerColors, which holds
+    // all of the colors used by the board game for the individual
+    // players.
 
 	public void setPlayerColors(playerColors playerColor) {
 		this.playerColor = playerColor;
 	}
 
-	// Takes in an enum of type players.playerColors, which holds
-	// all of the colors used by the board game for the individual
-	// players.
 
+    // Return's the player's current points.
 	public int getPoints() {
 		return points;
 	}
 
-	// Return's the player's current points.
 
+    // Used by the actual game class to add/subtract points
+    // from player, such as in events of [ADD EVENT HERE]***.
 	public void setPoints(int points) {
 		this.points = points;
 	}
 
-	// Used by the actual game class to add/subtract points
-	// from player, such as in events of [ADD EVENT HERE]***.
 
+    // Returns the player's name.
 	public String getName() {
 		return name;
 	}
 
-	// Returns the player's name.
+    // Used to set the player's names to be displayed for events that
+    // occur within the game.
 
 	public void setName(String name) {
 		this.name = name;
 	}
 
-	// Used to set the player's names to be displayed for events that
-	// occur within the game.
+    // Adds a 1 to the indicated player's points integer.
+    // Will be used by game methods for ease of access to score (points)
+    // changes.
 
 	public void addOnePoint(int points) {
 		this.points = points++;
 	}
 
-	// Adds a 1 to the indicated player's points integer.
-	// Will be used by game methods for ease of access to score (points)
-	// changes.
+    // Adds 2 to the indicated player's points integer.
+    // Will be used by game methods for ease of access to score (points)
+    // changes.
 
 	public void addTwoPoints(int points) {
 		this.points = points + 2;
 	}
 
-	// Adds 2 to the indicated player's points integer.
-	// Will be used by game methods for ease of access to score (points)
-	// changes.
+    // Subtracts 2 from the indicated player's points integer.
+    // Will be used when the indicated player achieves a Longest Road special
+    // card.
 
 	public void deductTwoPoints(int points) {
 		this.points = points - 2;
 	}
 
-	// Subtracts 2 from the indicated player's points integer.
-	// Will be used when the indicated player achieves a Longest Road special
-	// card.
+
 
 }
