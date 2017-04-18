@@ -2,7 +2,7 @@ package boardClasses;
 
 /**
  * @author Patrick Martin
- * The BoardGrid class will hold all the GridPoints in a 2D array and be able to return them.
+ * The BoardGrid class will hold all the GridNodes in a 2D array and be able to return them.
  *
  */
 public class BoardGrid {
@@ -19,6 +19,10 @@ public class BoardGrid {
                 grid[y][x] = new GridNode();
             }
         }
+    }
+
+    public GridNode[][] getGrid(){
+        return grid;
     }
 
 }
