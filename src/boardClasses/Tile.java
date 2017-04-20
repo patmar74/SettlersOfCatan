@@ -12,9 +12,7 @@ import javax.swing.ImageIcon;
  */
 
 public class Tile {
-	// Variables initialized
-	
-	
+
 	private boolean hasRobber;
 	//hasRobber declares whether or not this.tile has the robber on top of it
 	private boolean[] hasSettlement;
@@ -30,6 +28,7 @@ public class Tile {
 	private GridNode[] tilePoints = new GridNode[6];
 	//The reference point will represent the topmost point of the hexagon which will be used to assign points
 	private Point gridPointReference;
+	private BoardGrid grid;
 	
 	
 	// Setters and getters for all variables
@@ -106,6 +105,17 @@ public class Tile {
 	public Tile(ResourceType resource){
 	    this.resource = resource;
     }
+
+    public void setNodesToTile(BoardGrid grid){
+		int xValue = (int)gridPointReference.getX();
+		int yValue = (int)gridPointReference.getY();
+		tilePoints[0] = grid.getNode(xValue,yValue);
+		tilePoints[1] = grid.getNode(xValue-1,yValue-1);
+		tilePoints[2] = grid.getNode(xValue+1,yValue-1);
+		tilePoints[3] = grid.getNode(xValue-1,yValue-2);
+		tilePoints[4] = grid.getNode(xValue+1,yValue-2);
+		tilePoints[5] = grid.getNode(xValue,yValue-2);
+	}
 	
 
 }

@@ -13,6 +13,7 @@ import java.util.Random;
 public class Tiles {
 
     private ArrayList<Tile> gameTiles = new ArrayList<>();
+    private BoardGrid grid;
 
     /**
      * Constructor Creates all game tiles, and assigns them tokens and reference coordinates

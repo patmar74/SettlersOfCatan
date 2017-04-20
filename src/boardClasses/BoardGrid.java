@@ -25,4 +25,14 @@ public class BoardGrid {
         return grid;
     }
 
+    /**
+     * Get grid node at the x,y position
+     * @param x
+     * @param y
+     * @return
+     */
+    public GridNode getNode(int x, int y){
+        return grid[y][x];
+    }
+
 }
