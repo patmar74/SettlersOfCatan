@@ -26,14 +26,14 @@ public class testBanker {
         showHand(player1);
 
         System.out.println("Bank gives player 2 a Lumber");
-        myBank.giveResource(player2,ResourceType.LUMBER,1);
+        myBank.giveResource(player2,ResourceType.LUMBER,3);
         showBank(myBank);
         showHand(player2);
 
-        System.out.println("Player 1 trades a brick to player 2 for lumber");
+        System.out.println("Player 1 trades a brick to player 2 for 3 lumber");
 
         try {
-            myBank.initPlayerTrade(player1, player1.buildOffering(0,0,0,0,1),player2, player2.buildOffering(0,0,0,1,0));
+            myBank.initPlayerTrade(player1, player1.buildOffering(0,0,0,0,1),player2, player2.buildOffering(0,0,0,3,0));
         } catch (InvalidArgumentException e) {
             System.out.println(e.getMessage());
         }
@@ -46,7 +46,7 @@ public class testBanker {
         showHand(player1);
 
         System.out.println("Player 1 does universal trade of 4 lumber for 1 Ore");
-        boolean tradeSuccessful = myBank.universalTrade(player1,ResourceType.LUMBER,ResourceType.ORE);
+        boolean tradeSuccessful = myBank.processTrade(player1,ResourceType.LUMBER,ResourceType.ORE,4,1);
         displayTradeSuccessful(tradeSuccessful);
         showBank(myBank);
         showHand(player1);
@@ -54,7 +54,7 @@ public class testBanker {
         showHand(player2);
         System.out.println("Player 2 gains 1 Brick from the bank and tries to do a 2:1 Brick Marine Trade for a Wheat");
         myBank.giveResource(player2, ResourceType.BRICK,1);
-        tradeSuccessful = myBank.marineTrade(player2, ResourceType.BRICK, ResourceType.WHEAT, 2);
+        tradeSuccessful = myBank.processTrade(player2, ResourceType.BRICK, ResourceType.WHEAT, 2,1);
         displayTradeSuccessful(tradeSuccessful);
         showBank(myBank);
         showHand(player2);
