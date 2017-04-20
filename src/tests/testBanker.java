@@ -1,7 +1,7 @@
 package tests;
 
 import com.sun.javaws.exceptions.InvalidArgumentException;
-import players.Person;
+import players.Player;
 import players.playerColors;
 import resourceClasses.Banker;
 import resourceClasses.ResourceType;
@@ -13,8 +13,8 @@ import java.util.ArrayList;
  */
 public class testBanker {
     public static void main(String[] args){
-        Person player1 = new Person("Player 1",playerColors.BLUE);
-        Person player2 = new Person("Player 2", playerColors.RED);
+        Player player1 = new Player("Player 1",playerColors.BLUE);
+        Player player2 = new Player("Player 2", playerColors.RED);
         Banker myBank = new Banker();
         showBank(myBank);
         showHand(player1);
@@ -65,7 +65,7 @@ public class testBanker {
      * Outputs hand to console
      * @param player
      */
-    private static void showHand(Person player){
+    private static void showHand(Player player){
         System.out.print(player.getName() + ":");
         ArrayList<ResourceType> myHand = player.getHand();
         for(ResourceType card: myHand){

@@ -1,5 +1,5 @@
 package guiClasses;
-import players.Person;
+import players.Player;
 import players.playerColors;
 import resourceClasses.Banker;
 import resourceClasses.ResourceType;
@@ -56,8 +56,8 @@ public class BankerAndHarborTradeGUI {
 	private Banker banker;
 	// panel with the components needed to set up the trade
 	private JPanel setTradepanel;
-	// Person making the trade
-	private Person personTrading;
+	// Player making the trade
+	private Player playerTrading;
 
 	/**
 	 * Launch the application.
@@ -68,10 +68,10 @@ public class BankerAndHarborTradeGUI {
 			public void run() {
 				try {
 					// creates a dummy person for trading purposes (the version
-					// of the Person class I was working with didn't have a
+					// of the Player class I was working with didn't have a
 					// constructor so I made one that sets all resources as
 					// being 8)
-					Person p = new Person("Player", playerColors.BLUE);
+					Player p = new Player("Player", playerColors.BLUE);
 					// the trade ratio in this test case is 4 with no resource
 					// restriction.
 					// it is a banker trade
@@ -88,49 +88,49 @@ public class BankerAndHarborTradeGUI {
 	 * Creates an instance of the trade hub for non specific exchanges, where
 	 * any resource type can be traded in.
 	 *
-	 * @param personTrading
+	 * @param playerTrading
 	 *            - the player making the trade
 	 * @param tradeRatio
 	 *            - (also know as the exchange rate) it is the number of cards
 	 *            you need to trade in to get one back. for trades with the
 	 *            banker it is 4, for ports it can be 3 or 2.
 	 */
-	public BankerAndHarborTradeGUI(Person personTrading, int tradeRatio) {
+	public BankerAndHarborTradeGUI(Player playerTrading, int tradeRatio) {
 		// the desert resource type is used to represent a lack of a resource
 		// traded restriction. the desert type is used instead of setting the
 		// resource traded as null
 		this.resourceTraded = ResourceType.DESERT;
-		commonConstructorCalls(personTrading, tradeRatio);
+		commonConstructorCalls(playerTrading, tradeRatio);
 	}// end constructor
 
 	/**
 	 * Constructor used for trades where a specific resource is being traded in.
 	 * This will happen for some port exchanges.
 	 *
-	 * @param personTrading
+	 * @param playerTrading
 	 *            - the player making the trade
 	 * @param resourceTraded
 	 *            - the resource specified by the port of exchange
 	 * @param tradeRatio
 	 *            - exchange rate on the trade
 	 */
-	public BankerAndHarborTradeGUI(Person personTrading, int tradeRatio, ResourceType resourceTraded) {
+	public BankerAndHarborTradeGUI(Player playerTrading, int tradeRatio, ResourceType resourceTraded) {
 		// the resource traded is fixed and cannot be changed in the GUI
 		this.resourceTraded = resourceTraded;
-		commonConstructorCalls(personTrading, tradeRatio);
+		commonConstructorCalls(playerTrading, tradeRatio);
 	}// end constructor
 
 	/**
 	 * Handles all of the methods that are called in both constructors.
 	 *
-	 * @param personTrading
+	 * @param playerTrading
 	 *            - same as the value passed into the constructor
 	 * @param tradeRatio
 	 *            - same as the value passed into the constructor
 	 */
-	private void commonConstructorCalls(Person personTrading, int tradeRatio) {
+	private void commonConstructorCalls(Player playerTrading, int tradeRatio) {
 		// sets the person making the trade
-		this.personTrading = personTrading;
+		this.playerTrading = playerTrading;
 		// sets the trade ratio
 		this.tradeRatio = tradeRatio;
 		// sets a string representation of the trade ratio, used for calling
@@ -319,7 +319,7 @@ public class BankerAndHarborTradeGUI {
 
 				// checks to see if the payer has enough cards to trade, if they
 				// do not, the message is displayed
-				if (!banker.checkRemovePossible(personTrading, ResourceType.valueOf(resourceTradedString),
+				if (!banker.checkRemovePossible(playerTrading, ResourceType.valueOf(resourceTradedString),
 						numberOfResourcesTraded)) {
 					JOptionPane.showMessageDialog(null, "You do not have enough resources to complete the trade.",
 							"Insufficiant Funds", JOptionPane.ERROR_MESSAGE);
@@ -412,7 +412,7 @@ public class BankerAndHarborTradeGUI {
 		}// end displayTradeSummary method
 
 		/**
-		 * Process the trade and updates the Person's hand to reflect the
+		 * Process the trade and updates the Player's hand to reflect the
 		 * outcome of the trade
 		 *
 		 * @return true if the trade is processed, false if it is not
@@ -421,7 +421,7 @@ public class BankerAndHarborTradeGUI {
 			ResourceType resourceTraded = ResourceType.valueOf(resourceTradedString);
 			ResourceType resourceRecieved = ResourceType.valueOf(resourceRecievedString);
 
-			return banker.processTrade(personTrading, resourceTraded, resourceRecieved, numberOfResourcesTraded,
+			return banker.processTrade(playerTrading, resourceTraded, resourceRecieved, numberOfResourcesTraded,
 					numberOfResourcesRecieved);
 		}// end processTrade method
 

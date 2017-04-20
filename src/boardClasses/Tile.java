@@ -27,7 +27,7 @@ public class Tile {
 	// the character on the hex, used for the purpose of setting up the board
 	private char Name;
 	// Array of points on specified tile which will be assigned based on the reference point
-	private Point[] tilePoints = new Point[6];
+	private GridNode[] tilePoints = new GridNode[6];
 	//The reference point will represent the topmost point of the hexagon which will be used to assign points
 	private Point gridPointReference;
 	
@@ -83,12 +83,12 @@ public class Tile {
 		Name = name;
 	}
 
-	public Point[] getTilePoints()
+	public GridNode[] getTilePoints()
 	{
 		return tilePoints;
 	}
 
-	public void setTilePoints(Point[] tilePoints)
+	public void setTilePoints(GridNode[] tilePoints)
 	{
 		this.tilePoints = tilePoints;
 	}

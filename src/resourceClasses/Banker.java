@@ -1,6 +1,7 @@
 package resourceClasses;
 
-import players.Person;
+import players.Player;
+
 import java.util.ArrayList;
 
 
@@ -26,7 +27,7 @@ public class Banker {
 	 * @param player
 	 * @param type
 	 */
-	public void giveResource(Person player, ResourceType type, int qty) {
+	public void giveResource(Player player, ResourceType type, int qty) {
 		for (int i = 0; i < qty; i++) {
 			myBank.drawResource(type);
 			player.addResource(type);
@@ -39,7 +40,7 @@ public class Banker {
 	 * @param player
 	 * @param type
 	 */
-	public void returnResource(Person player, ResourceType type, int qty) {
+	public void returnResource(Player player, ResourceType type, int qty) {
 		for (int i = 0; i < qty; i++) {
 			player.removeResource(type);
 			myBank.returnToBank(type);
@@ -59,7 +60,7 @@ public class Banker {
 	 *            ArrayList<ResourceType> All the resources that the target
 	 *            player is offering
 	 */
-	public void initPlayerTrade(Person initPlayer, ArrayList<ResourceType> initOfferArray, Person targetPlayer,
+	public void initPlayerTrade(Player initPlayer, ArrayList<ResourceType> initOfferArray, Player targetPlayer,
 								ArrayList<ResourceType> targetOfferArray) {
 		// Loop until initOfferArray is reduced to an empty arrayList
 		// remove resource from trading player and add to target player
@@ -97,7 +98,7 @@ public class Banker {
 	 * Processes Trades with known resource inputs and outputs
 	 *
 	 * @param player
-	 *            - Person making the trade
+	 *            - Player making the trade
 	 * @param offering
 	 *            - the resource the player is trading
 	 * @param requested
@@ -108,7 +109,7 @@ public class Banker {
 	 *            - number of resources bing received
 	 * @return true if the trade is completed, false if it is not
 	 */
-	public boolean processTrade(Person player, ResourceType offering, ResourceType requested, int numOffering,
+	public boolean processTrade(Player player, ResourceType offering, ResourceType requested, int numOffering,
 								int numRequested) {
 		boolean tradeSucessfull = true;
 		// checks to see if the player has enough resources to make the trade
@@ -137,7 +138,7 @@ public class Banker {
 	 * @param myType
 	 * @return boolean true if removal is possible
 	 */
-	public boolean checkRemovePossible(Person player, ResourceType myType, int requestedNumber) {
+	public boolean checkRemovePossible(Player player, ResourceType myType, int requestedNumber) {
 		ArrayList<ResourceType> hand = player.getHand(); // gets the arraylist
 		// of the player's
 		// resource cards

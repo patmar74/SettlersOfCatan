@@ -1,6 +1,6 @@
 package developmentCards;
 
-import players.Person;
+import players.Player;
 import resourceClasses.Banker;
 import resourceClasses.ResourceType;
 
@@ -64,7 +64,7 @@ public class DevCard {
      * @param secondRequest Second resource type that the player wants to gain,
      *                      this can be the same as the firstRequest
      */
-    public void doAction(Person player, ResourceType firstRequest, ResourceType secondRequest, Banker myBanker){
+    public void doAction(Player player, ResourceType firstRequest, ResourceType secondRequest, Banker myBanker){
         myBanker.giveResource(player,firstRequest,1);
         myBanker.giveResource(player, secondRequest,1);
     }
@@ -74,9 +74,9 @@ public class DevCard {
      * Gets all resource cards of a requested type from all other players
      * and gives them to the player that used the dev card.
      */
-    public void doAction(Person player, ArrayList<Person> players, ResourceType resourceRequested){
+    public void doAction(Player player, ArrayList<Player> players, ResourceType resourceRequested){
         int totalCardsGained = 0; // useful only for Monopoly card;
-        for (Person myPlayer:players){
+        for (Player myPlayer:players){
             if (myPlayer != player) { // if myPlayer has same address as player then skip it
                 int cardsLost = countResources(myPlayer,resourceRequested);
                 totalCardsGained += cardsLost;
@@ -97,7 +97,7 @@ public class DevCard {
      * @param type
      * @return
      */
-    private int countResources(Person player, ResourceType type){
+    private int countResources(Player player, ResourceType type){
 	    int total = 0;
 	    ArrayList<ResourceType> hand = player.getHand();
 	    for (ResourceType card: hand){
