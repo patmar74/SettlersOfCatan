@@ -1,56 +1,39 @@
 package players;
 
 /**
- * Represents a settlement for the Settlers of Katan
- * @field location array of [x,y], set to [-1,-1] for settlements that have not been placed yet
- * @field isCity Boolean flag true if settlement is a city
- * @field color playerColors enum for the color of the settlement piece
+ * Represents a settlement for the Settlers of Catan
+ * @field myPlayer The player who owns the settlement
+ * @field multiplier int The multiplier for the number of resources the player will receive
  */
 public class Settlement {
-    private int[] location = new int[2];
-    private boolean isCity;
-    private playerColors color;
+
+    private Player myPlayer;
+    protected int multiplier = 1; // a multiplier of 1 for a settlement, meaning the player gets only 1 resource
 
     /**
      * Constructor
-     * @param color
+     * @param myPlayer The Player who is the owner of the settlement
      */
-    public Settlement(playerColors color){
-        this.color = color;
-        isCity = false;
-        location[0] = -1;
-        location[1] = -1;
+    public Settlement(Player myPlayer){
+        this.myPlayer = myPlayer;
     }
 
     /**
-     * Getter for settlement color
-     * @return playerColors color of settlement
+     * Gets the multiplier for the settlement
+     * @return The multiplier for the settlement
      */
-    public playerColors getColor(){
-        return color;
-    }
-    /**
-     * Change settlement to city by toggling the isCity flag
-     */
-    public void convertToCity(){
-        isCity = true;
+    public int getMultiplier(){
+        return multiplier;
     }
 
     /**
-     * Get location of settlement
-     * @return int[] [x,y]
+     * Gets the player associated with the settlement.
+     * @return The player associated with the settlement
      */
-    public int[] getLocation(){
-        return location;
-    }
+    public Player getPlayer(){return myPlayer;}
 
-    /**
-     * Set location of settlement
-     * @param x
-     * @param y
-     */
-    public void setLocation(int x, int y){
-        location[0] = x;
-        location[1] = y;
-    }
+
+
+
+
 }

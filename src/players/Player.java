@@ -21,6 +21,7 @@ public class Player {
 	private int points;
 	private String name;
 	private ArrayList<Settlement> settlements = new ArrayList<>();
+	private ArrayList<City> cities = new ArrayList<>();
 	//ToDo remove comment once road is available
 	//private ArrayList<road> roads;
 	private int playerTurn;
@@ -37,9 +38,13 @@ public class Player {
 	public Player(String name, playerColors playerColor){
 	    this.name = name;
 	    this.playerColor = playerColor;
-	    // add 4 new settlements to the settlements ArrayList
-	    for(int i = 0;i<4; i++){
-	        settlements.add(new Settlement(playerColor));
+	    // add 5 new settlements to the settlements ArrayList
+	    for(int i = 0;i<5; i++){
+	        settlements.add(new Settlement(this));
+        }
+        // add 4 new cities to the cities ArrayList
+        for(int i = 0; i<4; i++){
+	        cities.add(new City(this));
         }
 
         // add 15 roads to the roads ArrayList
@@ -168,10 +173,7 @@ public class Player {
 	public ArrayList<Settlement> getPlayerSettlements() {
 		return settlements;
 	}
-
-	public void setPlayerSettlements(ArrayList<Settlement> settlements) {
-		this.settlements = settlements;
-	}
+    public ArrayList<City> getPlayerCities() { return cities;}
 //ToDo add get road method
 //	public ArrayList<road> getPlayerRoad() {
 //		return playerRoad;
