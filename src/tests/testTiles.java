@@ -1,5 +1,6 @@
 package tests;
 
+import boardClasses.BoardGrid;
 import boardClasses.Tile;
 import boardClasses.Tiles;
 
@@ -8,7 +9,8 @@ import boardClasses.Tiles;
  */
 public class testTiles {
     public static void main(String[] args){
-        Tiles myTiles = new Tiles();
+
+        Tiles myTiles = new Tiles(new BoardGrid());
 
         for(Tile thisTile: myTiles.getTiles()){
             System.out.print("Grid Reference: " + thisTile.getGridPointReference() + ", ");

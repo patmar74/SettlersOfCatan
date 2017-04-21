@@ -9,37 +9,37 @@ import javax.swing.JPanel;
 public class CircleToken {
 
 	// constructor set to initialize string
-	CircleToken(char letter, String number) {
+	CircleToken(char letter, int number) {
 		this.number = number;
 		switch (number) {
-		case "2":
+		case 2:
 			dots = 1;
 			break;
-		case "3":
+		case 3:
 			dots = 2;
 			break;
-		case "4":
+		case 4:
 			dots = 3;
 			break;
-		case "5":
+		case 5:
 			dots = 4;
 			break;
-		case "6":
+		case 6:
 			dots = 5;
 			break;
-		case "8":
+		case 8:
 			dots = 5;
 			break;
-		case "9":
+		case 9:
 			dots = 4;
 			break;
-		case "10":
+		case 10:
 			dots = 3;
 			break;
-		case "11":
+		case 11:
 			dots = 2;
 			break;
-		case "12":
+		case 12:
 			dots = 1;
 			break;
 		}
@@ -56,7 +56,7 @@ public class CircleToken {
 	private char letter;
 
 	// number to be displayed on token
-	private String number;
+	private int number;
 
 	// number of dots on chip
 	private int dots;
@@ -64,7 +64,7 @@ public class CircleToken {
 	// returns private variable value
 	// written for communication between the tile classes, as it is the only
 	// piece of information required
-	public String getNumber() {
+	public int getNumber() {
 		return number;
 	}
 
@@ -97,14 +97,14 @@ public class CircleToken {
 			// creates font used to specify number in token
 			// if the number is six or eight, it is colored red
 			g.setFont(new Font("TimesRoman", Font.BOLD, 100));
-			if (number.equals("6") || number.equals("8")) {
+			if ((number == 6) ||( number == 8)) {
 				g.setColor(Color.RED);
 			} else {
 				g.setColor(Color.BLACK);
 			}
 			// draws the number specified in boardClasses.CircleToken constructor into the
 			// token
-			g.drawString(number, 68, 110);
+			g.drawString(String.valueOf(number), 68, 110);
 		}
 	}
 

@@ -18,11 +18,13 @@ public class Tiles {
     /**
      * Constructor Creates all game tiles, and assigns them tokens and reference coordinates
      */
-    public Tiles(){
+    public Tiles(BoardGrid grid){
         createTiles();
         shuffleTiles();
         setTileCoordinates();
         assignTokens(createShuffledCircleTokens()); //assigns tokens created by createShuffledTokens
+        this.grid = grid;
+        setNodesToTiles();
     }
 
     /**
@@ -147,13 +149,41 @@ public class Tiles {
             CircleToken myToken = tokens.get(i);
 
             if((myTile.getResource().equals(ResourceType.DESERT))){
-                myTile.setToken(new CircleToken(' ',"")); // sets a token for the desert that will never be used
+                myTile.setToken(new CircleToken(' ',0)); // sets a token for the desert that will never be used
                 // this is purely to avoid a NullPointerException
             } else{ // if myTile is not a Desert tile then assign the current token to the tile
                 myTile.setToken(myToken);
                 i++; // increment the index to get the next token
             }
         }
+    }
+
+    public Tile getTile(int x){
+        return gameTiles.get(x);
+    }
+
+    // Loops through all tiles and assigns the appropriate grid nodes
+    private void setNodesToTiles(){
+        for(Tile myTile: gameTiles){
+            myTile.setNodesToTile(grid);
+        }
+    }
+
+    /**
+     * Finds all tiles who have a token for the dice roll that is passed in.
+     * @param diceRoll The Value of the dice roll
+     * @return ArrayList<Tile> All Tiles who have a token for the dice roll that is passed in
+     */
+    public ArrayList<Tile> getTilesWithDiceRoll(int diceRoll){
+        //tilesWithDiceRoll will hold all Tiles that have a token with the input diceRoll value
+        ArrayList<Tile> tilesWithDiceRoll = new ArrayList<>();
+        //Loop through all tiles and add the tiles who have a token that matches the dice roll to tilesWithDiceRoll ArrayList
+        for(Tile myTile:gameTiles){
+            if(myTile.getToken().getNumber() == diceRoll){
+                tilesWithDiceRoll.add(myTile);
+            }
+        }
+        return tilesWithDiceRoll;
     }
 
 
