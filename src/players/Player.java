@@ -27,7 +27,7 @@ public class Player {
 	private ArrayList<City> cities = new ArrayList<>();
 	//ToDo remove comment once road is available
 	//private ArrayList<road> roads;
-	private int playerTurn;
+
 	private ArrayList<DevCard> devCards = new ArrayList<>();
 
 	// Arraylist of resource cards player has in their hand
@@ -189,11 +189,6 @@ public class Player {
 	public String getPlayerColor() {
 		return playerColor.toString();
 	}
-
-	// Takes in an enum of type players.playerColors, which holds
-    // all of the colors used by the board game for the individual
-    // players.
-
 
     // Return's the player's current points.
 	public int getPoints() {

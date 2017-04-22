@@ -18,4 +18,12 @@ public class testTiles {
             System.out.print("Circle Token: " + thisTile.getToken().getNumber() + " " + thisTile.getToken().getLetterOnToken()+ "\n");
         }
     }
+
+    public static void showTiles(Tiles myTiles, BoardGrid myGrid){
+        for(Tile thisTile: myTiles.getTilesArray()){
+            System.out.print("Grid Reference: " + thisTile.getGridPointReference() + ", ");
+            System.out.print("Resource Type: " + thisTile.getResource() + ", ");
+            System.out.print("Circle Token: " + thisTile.getToken().getNumber() + " " + thisTile.getToken().getLetterOnToken()+ "\n");
+        }
+    }
 }

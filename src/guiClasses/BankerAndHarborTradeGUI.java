@@ -4,9 +4,7 @@ import players.playerColors;
 import resourceClasses.Banker;
 import resourceClasses.ResourceType;
 
-import java.awt.BorderLayout;
-import java.awt.EventQueue;
-import java.awt.Font;
+import java.awt.*;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
 import java.util.ArrayList;
@@ -71,7 +69,7 @@ public class BankerAndHarborTradeGUI {
 					// of the Player class I was working with didn't have a
 					// constructor so I made one that sets all resources as
 					// being 8)
-					Player p = new Player("Player", playerColors.BLUE);
+					Player p = new Player("Player", Color.BLUE);
 					// the trade ratio in this test case is 4 with no resource
 					// restriction.
 					// it is a banker trade

@@ -152,14 +152,14 @@ public class Tiles {
     private void assignTokens(ArrayList<CircleToken> tokens){
         int i = 0; // Used to hold the index of the circle token being assigned
         for(Tile myTile: gameTiles){
-            CircleToken myToken = tokens.get(i);
+
 
             if((myTile.getResource().equals(ResourceType.DESERT))){
                 myTile.setToken(new CircleToken(' ',0)); // sets a token for the desert that will never be used
                 // this is purely to avoid a NullPointerException
             } else{ // if myTile is not a Desert tile then assign the current token to the tile
+                CircleToken myToken = tokens.remove(0);
                 myTile.setToken(myToken);
-                i++; // increment the index to get the next token
             }
         }
     }

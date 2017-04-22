@@ -6,6 +6,7 @@ import players.playerColors;
 import resourceClasses.Banker;
 import resourceClasses.ResourceType;
 
+import java.awt.*;
 import java.util.ArrayList;
 
 /**
@@ -13,8 +14,8 @@ import java.util.ArrayList;
  */
 public class testBanker {
     public static void main(String[] args){
-        Player player1 = new Player("Player 1",playerColors.BLUE);
-        Player player2 = new Player("Player 2", playerColors.RED);
+        Player player1 = new Player("Player 1", Color.BLUE);
+        Player player2 = new Player("Player 2", Color.RED);
         Banker myBank = new Banker();
         showBank(myBank);
         showHand(player1);
