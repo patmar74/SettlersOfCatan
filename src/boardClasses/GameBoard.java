@@ -29,6 +29,16 @@ public class GameBoard {
         return grid;
     }
 
+    /**
+     * Gets the gridNode object at coordinate x,y
+     * @param x x Coordinate of the grid
+     * @param y y Coordinate of the grid
+     * @return GridNode reference at (x,y)
+     */
+    public GridNode getGridNode(int x, int y){
+        return grid.getNode(x,y);
+    }
+
     public Tiles getTiles(){
         return gameTiles;
     }

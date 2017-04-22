@@ -1,7 +1,10 @@
 package players;
 
+import java.awt.*;
 import java.lang.IllegalArgumentException;
 
+import boardClasses.GameBoard;
+import boardClasses.GridNode;
 import com.sun.javaws.exceptions.InvalidArgumentException;
 import developmentCards.DevCard;
 import resourceClasses.ResourceType;
@@ -16,7 +19,7 @@ import java.util.ArrayList;
  */
 public class Player {
 
-	private playerColors playerColor;
+	private Color playerColor;
 	// The players' individual colors are held in an enum in the same project.
 	private int points;
 	private String name;
@@ -32,10 +35,10 @@ public class Player {
 
     /**
      * Constructor gives a player name, player color, and initializes 4 player settlements, and 15 roads
-     * @param name
-     * @param playerColor
+     * @param name The name of the player
+     * @param playerColor The Color to be associated with the Player
      */
-	public Player(String name, playerColors playerColor){
+	public Player(String name, Color playerColor){
 	    this.name = name;
 	    this.playerColor = playerColor;
 	    // add 5 new settlements to the settlements ArrayList
@@ -85,7 +88,7 @@ public class Player {
      * @param qtyLumber Quantity of lumber being offered
      * @param qtyBrick Quantity of brick being offered
      * @return ArrayList<ResourceType> All resources the player wants to offer as a trade
-     * @throws IllegalArgumentException if any quantities cannot be fullfilled. ie) Hand has 1 wheat, but 2 wheat are
+     * @throws IllegalArgumentException if any quantities cannot be fulfilled. ie) Hand has 1 wheat, but 2 wheat are
      * being offered.
      */
     public ArrayList<ResourceType> buildOffering(int qtyWheat,int qtyWool,int qtyOre,int qtyLumber, int qtyBrick) throws InvalidArgumentException{
@@ -183,17 +186,13 @@ public class Player {
 //		this.playerRoad = playerRoad;
 //	}
 
-	public String getPlayerColors() {
+	public String getPlayerColor() {
 		return playerColor.toString();
 	}
 
 	// Takes in an enum of type players.playerColors, which holds
     // all of the colors used by the board game for the individual
     // players.
-
-	public void setPlayerColors(playerColors playerColor) {
-		this.playerColor = playerColor;
-	}
 
 
     // Return's the player's current points.
@@ -214,12 +213,37 @@ public class Player {
 		return name;
 	}
 
-    // Used to set the player's names to be displayed for events that
-    // occur within the game.
+    /**
+     * Place one of the players Settlements on the board, if a Settlement is already on the desired GridNode, then the
+     * placement fails. If the player does not have any more settlements, the placement fails. If placement succeeds,
+     * the player places one of their settlements on the board and gains a point.
+     * @param board The GameBoard object for the game
+     * @param x X coordinate of the desired GridNode to place the settlement
+     * @param y Y coordinate of the desired GridNode to place the settlement
+     * @return True if the placement was successful. This is useful to the GUI to show a message saying the placement
+     * was not successful.
+     */
+    public boolean placeSettlement(GameBoard board, int x, int y){
+        boolean placementSuccessful = true;
+        // If player has a settlement left to place attempt to place it on the board
+        if(settlements.size() > 0){
+            GridNode targetNode = board.getGridNode(x,y);
+            // If there is already a Settlement or City on the node then placement fails
+            if(targetNode.getSettlement() instanceof Settlement){
+               placementSuccessful = false;
+            }else {
+                // remove the settlement from player's settlements and place it on the targetNode
+                // and increment player points by 1
+                Settlement settlementBeingPlaced = settlements.remove(0);
+                targetNode.setSettlement(settlementBeingPlaced);
+                points++;
+            }
+        }else{
+            placementSuccessful = false;
+        }
+        return placementSuccessful;
+    }
 
-	public void setName(String name) {
-		this.name = name;
-	}
 
 
 
