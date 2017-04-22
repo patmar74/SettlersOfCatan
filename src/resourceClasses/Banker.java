@@ -72,29 +72,17 @@ public class Banker {
 		// remove resource from trading player and add to target player
 
 		while (initOfferArray.size() > 0) {
-			ResourceType initOffer = initOfferArray.remove(0);// removes the
-			// first card
-			// from the
-			// trading
-			// player's
-			// offering and
-			// stores the
-			// value in
-			// initOffer
-			initPlayer.removeResource(initOffer);// remove the resource card
-			// from the players hand
-			targetPlayer.addResource(initOffer); // add it to the target players
-			// hand
+            // removes the first card from the trading player's offering and stores the value in initOffer
+			ResourceType initOffer = initOfferArray.remove(0);
+            // remove the resource card from the players hand
+			initPlayer.removeResource(initOffer);
+            // add it to the target players hand
+			targetPlayer.addResource(initOffer);
+
 		}
 		while (targetOfferArray.size() > 0) {
-			ResourceType targetOffer = targetOfferArray.remove(0); // same as
-			// above
-			// except
-			// target
-			// and
-			// player
-			// are
-			// reversed
+			ResourceType targetOffer = targetOfferArray.remove(0);
+			// same as above except target and player are reversed
 			targetPlayer.removeResource(targetOffer);
 			initPlayer.addResource(targetOffer);
 		}
@@ -112,7 +100,7 @@ public class Banker {
 	 * @param numOffering
 	 *            - number of resources being traded
 	 * @param numRequested
-	 *            - number of resources bing received
+	 *            - number of resources being received
 	 * @return true if the trade is completed, false if it is not
 	 */
 	public boolean processTrade(Player player, ResourceType offering, ResourceType requested, int numOffering,
@@ -201,6 +189,110 @@ public class Banker {
                     }
                 }
             }
+        }
+    }
+
+    /**
+     * Gets an array for the quantity of resource cards needed to purchase the option desired.
+     * [WOOL,ORE,LUMBER,BRICK,WHEAT]
+     * @param option The option that is desired for purchase.
+     * @return int[] Where the order is [WOOL,ORE,LUMBER,BRICK,WHEAT]
+     */
+    public int[] getQtyNeededToPurchase(PurchaseOptions option){
+        int[] qtyNeeded = new int[5];
+        int qtyWool = 0;
+        int qtyOre = 0;
+        int qtyLumber = 0;
+        int qtyBrick = 0;
+        int qtyWheat = 0;
+        switch (option){
+            case SETTLEMENT:{
+                qtyWool = 1;
+                qtyBrick = 1;
+                qtyLumber = 1;
+                qtyWheat = 1;
+                break;
+            }
+            case CITY:{
+                qtyOre = 3;
+                qtyWheat = 2;
+                break;
+            }
+            case ROAD:{
+                qtyLumber = 1;
+                qtyBrick = 1;
+                break;
+            }
+            case DEV_CARD:{
+                qtyOre = 1;
+                qtyWheat = 1;
+                qtyWool = 1;
+                break;
+            }
+        }
+        //[WOOL,ORE,LUMBER,BRICK,WHEAT]
+        qtyNeeded[0] = qtyWool;
+        qtyNeeded[1] = qtyOre;
+        qtyNeeded[2] = qtyLumber;
+        qtyNeeded[3] = qtyBrick;
+        qtyNeeded[4] = qtyWheat;
+        return qtyNeeded;
+    }
+
+    /**
+     * Checks if a purchase is possible for the player
+     * @param myPlayer The player doing the purchasing
+     * @param qtyRequired [WOOL,ORE,LUMBER,BRICK,WHEAT]
+     * @return True if player has enough resources to make the purchase
+     */
+    public boolean checkPurchasePossible(Player myPlayer, int[] qtyRequired){
+        // creates resources array of all ResourceTypes in the order they were declared
+        // this includes the Desert so we will not use resources[5]
+        ResourceType[] resources = ResourceType.values();
+        int i = 0; // index for looping through resources[]
+        boolean isPossible = true;
+        for(int qty:qtyRequired){
+            isPossible = checkRemovePossible(myPlayer,resources[i],qty);
+            // if removal is not possible then break out of loop
+            if(!isPossible){
+                break;
+            }
+            i++;
+        }
+        return  isPossible;
+    }
+    /**
+     * Removes resources for purchase from player's hand
+     * @param myPlayer The player doing the purchasing
+     * @param qtyRequired [WOOL,ORE,LUMBER,BRICK,WHEAT]
+     */
+    public void removeResourcesForPurchase(Player myPlayer, int[] qtyRequired){
+        // creates resources array of all ResourceTypes in the order they were declared
+        // this includes the Desert so we will not use resources[5]
+        ResourceType[] resources = ResourceType.values();
+        int i = 0; // index for looping through resources[]
+        for(int qty: qtyRequired){
+            returnResource(myPlayer,resources[i],qty);
+            i++;
+        }
+
+    }
+
+    /**
+     * Rolls back a completed purchase.
+     * This is due to the player possibly changing their mind after making the purchase.
+     * The player will get the same resources that they spent to purchase the item.
+     * @param myPlayer The player doing the purchasing
+     * @param qtyRequired [WOOL,ORE,LUMBER,BRICK,WHEAT]
+     */
+    public void rollBackPurchase(Player myPlayer, int[] qtyRequired){
+        // creates resources array of all ResourceTypes in the order they were declared
+        // this includes the Desert so we will not use resources[5]
+        ResourceType[] resources = ResourceType.values();
+        int i = 0; // index for looping through resources[]
+        for(int qty: qtyRequired){
+            giveResource(myPlayer,resources[i],qty);
+            i++;
         }
     }
 }// end Class

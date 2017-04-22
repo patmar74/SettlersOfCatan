@@ -219,6 +219,8 @@ public class Player {
      * was not successful.
      */
     public boolean placeSettlement(GameBoard board, int x, int y){
+        //ToDo Add test to see if one of the player's roads is attached to the desired point.
+        //ToDo Add test to see if point is 2 edges away from any other settlement.
         boolean placementSuccessful = true;
         // If player has a settlement left to place attempt to place it on the board
         if(settlements.size() > 0){
