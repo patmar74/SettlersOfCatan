@@ -1,5 +1,7 @@
 package boardClasses;
 
+import resourceClasses.ResourceType;
+
 import java.util.ArrayList;
 
 /**
@@ -10,10 +12,18 @@ import java.util.ArrayList;
 public class GameBoard {
     private BoardGrid grid;
     private Tiles gameTiles;
+    private int indexOfRobber; // The index of the robber's current position.
 
+    /**
+     * Constructor
+     * Creates a new GameBoard object that encapsulates the boardGrid and the gameTiles.
+     * The constructor also finds the location of the robber and sets indexOfRobber accordingly.
+     */
     public GameBoard(){
         grid = new BoardGrid();
         gameTiles = new Tiles(grid);
+        indexOfRobber = getIndexOfDesert();
+
     }
     public BoardGrid getGrid() {
         return grid;
@@ -39,4 +49,31 @@ public class GameBoard {
         }
         return tilesWithDiceRoll;
     }
+
+    /**
+     * Gets the index of the desert tile in the gameTiles ArrayList.
+     * This is to find the starting position of the robber so that the GameBoard can keep track of it's position
+     * for the remainder of the game.
+     * @return The index of the desert tile in gameTiles
+     */
+    private int getIndexOfDesert(){
+        int indexOfDesert = 0;
+        // Loop through the Tiles Array in gameTiles object until the Tile resource is the desert
+        while(!gameTiles.getTile(indexOfDesert).getResource().equals(ResourceType.DESERT)){
+            indexOfDesert++;
+        }
+        return indexOfDesert;
+    }
+
+    /**
+     * Moves the robber from it's current position to a different location.
+     * @param tileIndex The index of the tile that the robber will be moved to.
+     */
+    public void moveRobber(int tileIndex){
+        // Remove robber from the current tile that has the robber
+        gameTiles.getTile(indexOfRobber).setHasRobber(false);
+        gameTiles.getTile(tileIndex).setHasRobber(true);
+        indexOfRobber = tileIndex;
+    }
+
 }

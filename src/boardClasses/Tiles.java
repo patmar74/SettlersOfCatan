@@ -48,12 +48,18 @@ public class Tiles {
 
     /**
      * Creates a specified quantity of tiles for a specific resource type
+     * If the tile is a desert, the robber is placed.
      * @param type ResourceType
      * @param qty int Quantity desired
      */
     private void initTilesOfResource(ResourceType type, int qty){
         for(int i = 0;i<qty; i++){
-            gameTiles.add(new Tile(type));
+            Tile currentTile = new Tile(type);
+            // If tile is a desert then place the robber
+            if(type.equals(ResourceType.DESERT)){
+                currentTile.setHasRobber(true);
+            }
+            gameTiles.add(currentTile);
         }
     }
 
