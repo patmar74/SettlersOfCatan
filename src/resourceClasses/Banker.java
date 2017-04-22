@@ -181,18 +181,24 @@ public class Banker {
      * @param diceRoll
      */
     public void distributeResources(GameBoard board, int diceRoll){
-		ArrayList<Tile> tilesWithDiceRoll = board.getTilesWithDiceRoll(diceRoll);
-		// Loop through all tiles with dice roll to get all settlements on the tile and distribute the tile's resource
+        ArrayList<Tile> tilesWithDiceRoll = board.getTilesWithDiceRoll(diceRoll);
+        // Loop through all tiles with dice roll to get all settlements on the tile and distribute the tile's resource
         // to the player who owns the settlement.
-		for(Tile resourceTile:tilesWithDiceRoll){
-		    // Loop through all 6 gridPoints on the tile and check if they have a settlement.
-            // If they do have a settlement then distribute resources to owner of the settlement.
-		    for(GridNode tilePoint:resourceTile.getTilePoints()){
-                Settlement currentSettlement = tilePoint.getSettlement(); // if no settlement at point then returns null
-                // check if currentSettlement references a Settlement object, this also covers City objects since
-                // City class inherits from Settlement class
-		        if(currentSettlement instanceof Settlement){
-		            giveResource(currentSettlement.getPlayer(),resourceTile.getResource(),currentSettlement.getMultiplier());
+        for(Tile resourceTile:tilesWithDiceRoll) {
+            // If resource tile is not the Desert then continue to check tile, else skip it
+            if(!resourceTile.getResource().equals(ResourceType.DESERT)){
+                // If resourceTile has does not have the robber then continue onto the tilePoints.
+                if (!resourceTile.getHasRobber()) {
+                    // Loop through all 6 gridPoints on the tile and check if they have a settlement.
+                    // If they do have a settlement then distribute resources to owner of the settlement.
+                    for (GridNode tilePoint : resourceTile.getTilePoints()) {
+                        Settlement currentSettlement = tilePoint.getSettlement(); // if no settlement at point then returns null
+                        // check if currentSettlement references a Settlement object, this also covers City objects since
+                        // City class inherits from Settlement class
+                        if (currentSettlement instanceof Settlement) {
+                            giveResource(currentSettlement.getPlayer(), resourceTile.getResource(), currentSettlement.getMultiplier());
+                        }
+                    }
                 }
             }
         }
