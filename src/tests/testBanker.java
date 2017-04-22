@@ -65,7 +65,7 @@ public class testBanker {
      * Outputs hand to console
      * @param player
      */
-    private static void showHand(Player player){
+    public static void showHand(Player player){
         System.out.print(player.getName() + ":");
         ArrayList<ResourceType> myHand = player.getHand();
         for(ResourceType card: myHand){
@@ -78,7 +78,7 @@ public class testBanker {
      * Outputs bank deck numbers
      * @param myBanker
      */
-    private static void showBank(Banker myBanker){
+    public static void showBank(Banker myBanker){
         myBanker.getResourceBank().getAllBankStats();
     }
 

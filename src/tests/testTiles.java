@@ -12,7 +12,7 @@ public class testTiles {
 
         Tiles myTiles = new Tiles(new BoardGrid());
 
-        for(Tile thisTile: myTiles.getTiles()){
+        for(Tile thisTile: myTiles.getTilesArray()){
             System.out.print("Grid Reference: " + thisTile.getGridPointReference() + ", ");
             System.out.print("Resource Type: " + thisTile.getResource() + ", ");
             System.out.print("Circle Token: " + thisTile.getToken().getNumber() + " " + thisTile.getToken().getLetterOnToken()+ "\n");

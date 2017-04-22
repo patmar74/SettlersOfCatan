@@ -19,24 +19,24 @@ public class TokenCreator {
 	// creates 18 tokens for game board and stores them in an ArrayList
 	private void createTokens() {
 
-		CircleToken five = new CircleToken('A', "5");
-		CircleToken two = new CircleToken('B', "2");
-		CircleToken six = new CircleToken('C', "6");
-		CircleToken three = new CircleToken('D', "3");
-		CircleToken eight = new CircleToken('E', "8");
-		CircleToken ten = new CircleToken('F', "10");
-		CircleToken nine = new CircleToken('G', "9");
-		CircleToken twelve = new CircleToken('H', "12");
-		CircleToken eleven = new CircleToken('I', "11");
-		CircleToken four = new CircleToken('J', "4");
-		CircleToken secondEight = new CircleToken('K', "8");
-		CircleToken secondTen = new CircleToken('L', "10");
-		CircleToken secondNine = new CircleToken('M', "9");
-		CircleToken secondFour = new CircleToken('N', "4");
-		CircleToken secondFive = new CircleToken('O', "5");
-		CircleToken secondSix = new CircleToken('P', "6");
-		CircleToken secondThree = new CircleToken('Q', "3");
-		CircleToken secondEleven = new CircleToken('R', "11");
+		CircleToken five = new CircleToken('A', 5);
+		CircleToken two = new CircleToken('B', 2);
+		CircleToken six = new CircleToken('C', 6);
+		CircleToken three = new CircleToken('D', 3);
+		CircleToken eight = new CircleToken('E', 8);
+		CircleToken ten = new CircleToken('F', 10);
+		CircleToken nine = new CircleToken('G', 9);
+		CircleToken twelve = new CircleToken('H', 12);
+		CircleToken eleven = new CircleToken('I', 11);
+		CircleToken four = new CircleToken('J', 4);
+		CircleToken secondEight = new CircleToken('K', 8);
+		CircleToken secondTen = new CircleToken('L', 10);
+		CircleToken secondNine = new CircleToken('M',9);
+		CircleToken secondFour = new CircleToken('N', 4);
+		CircleToken secondFive = new CircleToken('O', 5);
+		CircleToken secondSix = new CircleToken('P', 6);
+		CircleToken secondThree = new CircleToken('Q', 3);
+		CircleToken secondEleven = new CircleToken('R', 11);
 		tokens.add(five);
 		tokens.add(two);
 		tokens.add(six);

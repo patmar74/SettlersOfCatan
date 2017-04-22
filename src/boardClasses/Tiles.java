@@ -31,7 +31,7 @@ public class Tiles {
      * Get ArrayList of all game tiles
      * @return ArrayList<boardClasses.Tile> All game tiles
      */
-    public ArrayList<Tile> getTiles(){
+    public ArrayList<Tile> getTilesArray(){
         return gameTiles;
     }
     /**
@@ -167,23 +167,6 @@ public class Tiles {
         for(Tile myTile: gameTiles){
             myTile.setNodesToTile(grid);
         }
-    }
-
-    /**
-     * Finds all tiles who have a token for the dice roll that is passed in.
-     * @param diceRoll The Value of the dice roll
-     * @return ArrayList<Tile> All Tiles who have a token for the dice roll that is passed in
-     */
-    public ArrayList<Tile> getTilesWithDiceRoll(int diceRoll){
-        //tilesWithDiceRoll will hold all Tiles that have a token with the input diceRoll value
-        ArrayList<Tile> tilesWithDiceRoll = new ArrayList<>();
-        //Loop through all tiles and add the tiles who have a token that matches the dice roll to tilesWithDiceRoll ArrayList
-        for(Tile myTile:gameTiles){
-            if(myTile.getToken().getNumber() == diceRoll){
-                tilesWithDiceRoll.add(myTile);
-            }
-        }
-        return tilesWithDiceRoll;
     }
 
 
