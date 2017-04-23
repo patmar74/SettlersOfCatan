@@ -2,21 +2,21 @@ package players;
 
 /**
  * Represents a settlement for the Settlers of Catan
- * @field myPlayer The player who owns the settlement
+ * @field owner The player who owns the settlement
  * @field multiplier int The multiplier for the number of resources the player will receive
  */
 public class Settlement {
 
-    private Player myPlayer;
+    private Player owner;
     protected int multiplier = 1; // a multiplier of 1 for a settlement, meaning the player gets only 1 resource
     private int[] location = new int[2]; // [x,y]the coordinate location of the settlement, used for converting to a city
 
     /**
      * Constructor
-     * @param myPlayer The Player who is the owner of the settlement
+     * @param owner The Player who is the owner of the settlement
      */
-    public Settlement(Player myPlayer){
-        this.myPlayer = myPlayer;
+    public Settlement(Player owner){
+        this.owner = owner;
     }
 
     /**
@@ -31,7 +31,7 @@ public class Settlement {
      * Gets the player associated with the settlement.
      * @return The player associated with the settlement
      */
-    public Player getPlayer(){return myPlayer;}
+    public Player getPlayer(){return owner;}
 
     /**
      * Set the location of the settlement

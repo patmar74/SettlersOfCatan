@@ -26,7 +26,7 @@ public class Player {
 	private ArrayList<Settlement> settlements = new ArrayList<>();
 	private ArrayList<City> cities = new ArrayList<>();
 	//ToDo remove comment once road is available
-	//private ArrayList<road> roads;
+	private ArrayList<Road> roads;
 
 	private ArrayList<DevCard> devCards = new ArrayList<>();
 
@@ -52,8 +52,7 @@ public class Player {
 
         // add 15 roads to the roads ArrayList
         for(int i = 0; i<15;i++){
-	        //ToDo remove comment once Road class is made and added to project
-	        //roads.add(new Road(playerColor));
+	        roads.add(new Road(this));
         }
     }
 	/**
@@ -173,18 +172,10 @@ public class Player {
     }
 
 
-	public ArrayList<Settlement> getPlayerSettlements() {
+	public ArrayList<Settlement> getSettlements() {
 		return settlements;
 	}
-    public ArrayList<City> getPlayerCities() { return cities;}
-//ToDo add get road method
-//	public ArrayList<road> getPlayerRoad() {
-//		return playerRoad;
-//	}
-// ToDo add set road method
-//	public void setPlayerRoad(ArrayList<road> playerRoad) {
-//		this.playerRoad = playerRoad;
-//	}
+    public ArrayList<City> getCities() { return cities;}
 
 	public String getPlayerColor() {
 		return playerColor.toString();
@@ -241,7 +232,45 @@ public class Player {
         return placementSuccessful;
     }
 
+    /**
+     * Places a road on the board that is either starting at a player's settlement, or a player's road that is
+     * already on the board. The road will serve as branches for the tree that will determine the longest road.
+     * @param board The GameBoard object for the game
+     * @param start The Point that starts the road, this corresponds with a GridNode
+     * @param end The Point that ends the road, this corresponds with a GridNode
+     * @return True if the road placement was successful
+     */
+    public boolean placeRoad(GameBoard board, Point start, Point end){
+        boolean placementSuccessful = true;
+        // The settlement on the start GridNode, could return null
+        Settlement startSettlement = board.getGridNode(start.x,start.y).getSettlement();
+        if(startSettlement.getPlayer() == this || )
+        return placementSuccessful;
+    }
 
+    /**
+     * Determines which direction the road will be built based on the Start and End points
+     * @param start The Point that starts the road, this corresponds with a GridNode
+     * @param end The Point that ends the road, this corresponds with a GridNode
+     * @return RoadDirection The direction that the road will be built, returns null if start and end points are not
+     * within one edge of each other.
+     * @nullable
+     */
+    private RoadDirection getRoadDirection(Point start, Point end){
+        // North if x does not change and y decreases by 1
+        if(end.x == start.x && end.y - start.y == -1){
+            return RoadDirection.NORTH;
+            // South West if x decreases by 1 and y increases by 1
+        }else if(end.x - start.x == -1 && end.y - start.y == 1){
+            return RoadDirection.SOUTH_WEST;
+            //South East if x increases by 1 and y increases by 1
+        }else if(end.x - start.x == 1 && end.y - start.y == 1){
+            return RoadDirection.SOUTH_EAST;
+            // Not a valid road placement, return null
+        }else{
+            return null;
+        }
+    }
 
 
 

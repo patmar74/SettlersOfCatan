@@ -1,5 +1,7 @@
 package boardClasses;
 
+import players.Road;
+import players.RoadDirection;
 import players.Settlement;
 
 import java.awt.*;
@@ -23,9 +25,9 @@ public class GridNode extends Point{
     Settlement mySettlement; // The settlement on that point
     // Knight myKnight; // The Knight on that point
     // ToDo Remove comment once Knight class has been created
-    GridNode northNode;
-    GridNode southWestNode;
-    GridNode southEastNode;
+    Road northRoad;
+    Road southWestRoad;
+    Road southEastRoad;
 
     /**
      * Constructor that sets the location of the GridNode by calling the constructor from the inherited Point class
@@ -65,27 +67,40 @@ public class GridNode extends Point{
         }
     }
 
-    public GridNode getNorthNode() {
-        return northNode;
+    /**
+     * Gets the road at the specified direction
+     * @param direction
+     * @return The road in the specified direction, returns null if no road is assigned
+     * @nullable
+     */
+    public Road getRoadAt(RoadDirection direction){
+        Road myRoad=null;
+        switch (direction){
+            case NORTH:{
+                myRoad = northRoad;
+                break;
+            }
+            case SOUTH_EAST:{
+                myRoad = southEastRoad;
+                break;
+            }
+            case SOUTH_WEST:{
+                myRoad = southWestRoad;
+                break;
+            }
+        }
+        return myRoad;
     }
 
-    public void setNorthNode(GridNode northNode) {
-        this.northNode = northNode;
+    public void setNorthRoad(Road northRoad) {
+        this.northRoad = northRoad;
     }
 
-    public GridNode getSouthWestNode() {
-        return southWestNode;
+    public void setSouthWestRoad(Road southWestRoad) {
+        this.southWestRoad = southWestRoad;
     }
 
-    public void setSouthWestNode(GridNode southWestNode) {
-        this.southWestNode = southWestNode;
-    }
-
-    public GridNode getSouthEastNode() {
-        return southEastNode;
-    }
-
-    public void setSouthEastNode(GridNode southEastNode) {
-        this.southEastNode = southEastNode;
+    public void setSouthEastRoad(Road southEastRoad) {
+        this.southEastRoad = southEastRoad;
     }
 }

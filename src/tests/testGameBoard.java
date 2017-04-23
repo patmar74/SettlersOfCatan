@@ -45,7 +45,7 @@ public class testGameBoard {
 
     }
     private static void showPlayerSettlements(Player myPlayer){
-        System.out.println(myPlayer.getName() + " has " + myPlayer.getPlayerSettlements().size() + " settlements.");
+        System.out.println(myPlayer.getName() + " has " + myPlayer.getSettlements().size() + " settlements.");
     }
 
     private static void testPlacement(GameBoard board, Player myPlayer, int x, int y){
