@@ -2,10 +2,13 @@ package boardClasses;
 
 import players.Settlement;
 
+import java.awt.*;
+
 /**
  * @author Patrick Martin
  * GridNode is a point on the grid for the game board
  * This class exists to hold a Settlement object or a Knight object
+ * @extends java.awt.Point
  *
  * <p> The GridNode exists because a method to easily get what settlements are attached to a tile was needed.
  * A GridNode will be assigned to each vertex of a tile. The GridNode will allow us to change the Settlement on the
@@ -16,7 +19,7 @@ import players.Settlement;
  *
  *
  */
-public class GridNode {
+public class GridNode extends Point{
     Settlement mySettlement; // The settlement on that point
     // Knight myKnight; // The Knight on that point
     // ToDo Remove comment once Knight class has been created
@@ -24,6 +27,14 @@ public class GridNode {
     GridNode southWestNode;
     GridNode southEastNode;
 
+    /**
+     * Constructor that sets the location of the GridNode by calling the constructor from the inherited Point class
+     * @param x
+     * @param y
+     */
+    public GridNode(int x,int y){
+        super(x,y);
+    }
     /**
      * Sets a Settlement on the GridNode
      * @param playerSettlement Settlement The settlement that the player wants to place on the point.

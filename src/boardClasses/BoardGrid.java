@@ -16,7 +16,7 @@ public class BoardGrid {
         int maxX = 10;// Maximum x point in grid
         for(int y = 0;y<=maxY; y++){
             for(int x =0;x<=maxX; x++){
-                grid[y][x] = new GridNode();
+                grid[y][x] = new GridNode(x,y);
             }
         }
     }

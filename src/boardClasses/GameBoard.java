@@ -86,4 +86,7 @@ public class GameBoard {
         indexOfRobber = tileIndex;
     }
 
+    //ToDo Add method to get an ArrayList af all tiles attached to a specific node
+    //ToDo Change GridNode to extend java.awt.Point
+
 }
