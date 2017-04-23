@@ -281,12 +281,11 @@ public class Player {
     }
 
     //ToDo testRoads
-//ToDo Finish writing java doc comments for this method
     /**
      * Check the road branches at the start gridNode for another road owned by the Player
-     * @param start
-     * @param directionBuilt
-     * @return
+     * @param start The GridNode where the road will start
+     * @param directionBuilt The direction the road will be built
+     * @return True if the GridNode has another road owned by the player attached to it.
      */
     private boolean checkOtherBranchesForRoad(GridNode start, RoadDirection directionBuilt){
         boolean playerRoadConnected = false;
