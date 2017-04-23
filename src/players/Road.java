@@ -37,4 +37,7 @@ public class Road {
     public void setEndNode(GridNode endNode) {
         this.endNode = endNode;
     }
+
+
+    public Player getOwner(){return owner;}
 }

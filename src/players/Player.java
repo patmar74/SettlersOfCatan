@@ -241,35 +241,75 @@ public class Player {
      * @return True if the road placement was successful
      */
     public boolean placeRoad(GameBoard board, Point start, Point end){
-        boolean placementSuccessful = true;
+        boolean placementSuccessful = false;
+        GridNode startGridNode = board.getGridNode(start);
         // The settlement on the start GridNode, could return null
-        Settlement startSettlement = board.getGridNode(start.x,start.y).getSettlement();
-        if(startSettlement.getPlayer() == this || )
+        Settlement startSettlement = startGridNode.getSettlement();
+        RoadDirection dirFromStart = DirectionDecider.getRoadDirection(start,end);
+        // Check if startSettlement is an instance of Settlement or a City, ie) Not null
+        if(startSettlement instanceof Settlement){
+            //If start settlement is referenced by the player (owned by them)
+            if(startSettlement.getPlayer() == this){
+                placementSuccessful = true;
+            }
+            // The player does not have a settlement, check if they have a connecting road at start
+        }else if (dirFromStart instanceof RoadDirection){
+            // If there is already a road in the dirFromStart the road is being built, then the placement fails
+            if(startGridNode.getRoadAt(dirFromStart) instanceof Road){
+                placementSuccessful = false;
+                // Check other branches for one of the player's roads
+            } else if(checkOtherBranchesForRoad(startGridNode,dirFromStart)){
+                placementSuccessful = true;
+            }
+        }
+        // If placement is allowed then place the road
+        if (placementSuccessful){
+            // Remove a road from the player's roads
+            Road rd = roads.remove(0);
+            // Set road on GridNode on the Road branch, dirFromStart
+            startGridNode.setRoadAt(rd,dirFromStart);
+            // Set start GridNode to the Road object
+            rd.setStartNode(startGridNode);
+
+            GridNode endGridNode = board.getGridNode(end);
+            endGridNode.setRoadAt(rd,DirectionDecider.getReflection(dirFromStart));
+
+
+
+        }
         return placementSuccessful;
     }
 
+    //ToDo testRoads
+//ToDo Finish writing java doc comments for this method
     /**
-     * Determines which direction the road will be built based on the Start and End points
-     * @param start The Point that starts the road, this corresponds with a GridNode
-     * @param end The Point that ends the road, this corresponds with a GridNode
-     * @return RoadDirection The direction that the road will be built, returns null if start and end points are not
-     * within one edge of each other.
-     * @nullable
+     * Check the road branches at the start gridNode for another road owned by the Player
+     * @param start
+     * @param directionBuilt
+     * @return
      */
-    private RoadDirection getRoadDirection(Point start, Point end){
-        // North if x does not change and y decreases by 1
-        if(end.x == start.x && end.y - start.y == -1){
-            return RoadDirection.NORTH;
-            // South West if x decreases by 1 and y increases by 1
-        }else if(end.x - start.x == -1 && end.y - start.y == 1){
-            return RoadDirection.SOUTH_WEST;
-            //South East if x increases by 1 and y increases by 1
-        }else if(end.x - start.x == 1 && end.y - start.y == 1){
-            return RoadDirection.SOUTH_EAST;
-            // Not a valid road placement, return null
-        }else{
-            return null;
+    private boolean checkOtherBranchesForRoad(GridNode start, RoadDirection directionBuilt){
+        boolean playerRoadConnected = false;
+        RoadDirection[] directions = start.getDirectionOptions(); // Gets array of directions for that gridNode
+        int i = 0;
+                //Loop through until all directions are checked, but stop if a road is connected
+        while(i< directions.length && !playerRoadConnected){
+            RoadDirection dir = directions[i];
+            // skip iteration if in same direction as to be built
+            if(dir.equals(directionBuilt)){
+                i++;
+            }else{
+                Road roadAtDir = start.getRoadAt(dir);
+                i++;
+                // If road at the current direction then check owner
+                if(roadAtDir instanceof Road){
+                    if(roadAtDir.getOwner() == this){
+                        playerRoadConnected = true;
+                    }
+                }
+            }
         }
+        return playerRoadConnected;
     }
 
 

@@ -6,14 +6,16 @@ package boardClasses;
  *
  */
 public class BoardGrid {
-    GridNode[][] grid = new GridNode[12][11]; // A 11 x 12 grid that a max of 10 in the x and a max of 11 in the y
+    private int maxX;
+    private int maxY;
+    private GridNode[][] grid = new GridNode[12][11]; // A 11 x 12 grid that a max of 10 in the x and a max of 11 in the y
 
     /**
      * Constructor assigns GridPoints to all array members
      */
     public BoardGrid(){
-        int maxY = 11;// Maximum y point in grid
-        int maxX = 10;// Maximum x point in grid
+        maxY = 11;// Maximum y point in grid
+        maxX = 10;// Maximum x point in grid
         for(int y = 0;y<=maxY; y++){
             for(int x =0;x<=maxX; x++){
                 grid[y][x] = new GridNode(x,y);
@@ -29,9 +31,16 @@ public class BoardGrid {
      * Get grid node at the x,y position
      * @param x
      * @param y
-     * @return
+     * @return The GridNode if x,y is within the bounds of the BoardGrid.
+     * @return null if x,y is out of the bounds of the BoardGrid
+     * @nullable
      */
     public GridNode getNode(int x, int y){
+        if(y<0 || y >= maxY){
+            return null;
+        }else if(x<0 || x >= maxX ){
+            return null;
+        }
         return grid[y][x];
     }
 

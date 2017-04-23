@@ -2,6 +2,7 @@ package boardClasses;
 
 import resourceClasses.ResourceType;
 
+import java.awt.*;
 import java.util.ArrayList;
 
 /**
@@ -38,6 +39,13 @@ public class GameBoard {
     public GridNode getGridNode(int x, int y){
         return grid.getNode(x,y);
     }
+
+    /**
+     * Gets the gridNode object at Point pt
+     * @param pt The Point where the GridNode is located
+     * @return The GridNode at the desired point.
+     */
+    public GridNode getGridNode(Point pt){return grid.getNode(pt.x,pt.y);}
 
     public Tiles getTiles(){
         return gameTiles;

@@ -22,12 +22,15 @@ import java.awt.*;
  *
  */
 public class GridNode extends Point{
-    Settlement mySettlement; // The settlement on that point
+    private Settlement mySettlement; // The settlement on that point
     // Knight myKnight; // The Knight on that point
     // ToDo Remove comment once Knight class has been created
-    Road northRoad;
-    Road southWestRoad;
-    Road southEastRoad;
+    private Road northRoad;
+    private Road southWestRoad;
+    private Road southEastRoad;
+    private Road southRoad;
+    private Road northWestRoad;
+    private Road northEastRoad;
 
     /**
      * Constructor that sets the location of the GridNode by calling the constructor from the inherited Point class
@@ -88,19 +91,77 @@ public class GridNode extends Point{
                 myRoad = southWestRoad;
                 break;
             }
+            case SOUTH:{
+                myRoad = southRoad;
+                break;
+            }
+            case NORTH_WEST:{
+                myRoad = northWestRoad;
+                break;
+            }
+            case NORTH_EAST:{
+                myRoad = northEastRoad;
+                break;
+            }
         }
         return myRoad;
     }
 
-    public void setNorthRoad(Road northRoad) {
-        this.northRoad = northRoad;
+
+    /**
+     * Sets a Road object in the direction being built
+     * @param rd The player's road that is being built
+     * @param direction The direction the road is being built
+     */
+    public void setRoadAt(Road rd, RoadDirection direction){
+        switch (direction){
+            case NORTH:{
+                northRoad=rd;
+                break;
+            }
+            case SOUTH_EAST:{
+                southEastRoad=rd;
+                break;
+            }
+            case SOUTH_WEST:{
+                southWestRoad=rd;
+                break;
+            }
+            case SOUTH:{
+                southRoad=rd;
+                break;
+            }
+            case NORTH_WEST:{
+                northWestRoad=rd;
+                break;
+            }
+            case NORTH_EAST:{
+                northEastRoad=rd;
+                break;
+            }
+
+        }
     }
 
-    public void setSouthWestRoad(Road southWestRoad) {
-        this.southWestRoad = southWestRoad;
+    /**
+     * Gets an Array of all options that a road can be built on for the GridNode. The array is ordered staring with the
+     * vertical direction and rotating clockwise.
+     * @return <p>If y value of the GridNode location is even then return [NORTH,SOUTH_EAST,SOUTH_WEST].
+     * If y value is odd then return [SOUTH,NORTH_WEST,NORTH_EAST]</p>
+     */
+    public RoadDirection[] getDirectionOptions(){
+        RoadDirection[] directionOptions = new RoadDirection[3];
+        if(this.y % 2 == 0){
+            directionOptions[0] = RoadDirection.NORTH;
+            directionOptions[1] = RoadDirection.SOUTH_EAST;
+            directionOptions[2] = RoadDirection.SOUTH_WEST;
+        }else{
+            directionOptions[0] = RoadDirection.SOUTH;
+            directionOptions[1] = RoadDirection.NORTH_WEST;
+            directionOptions[2] = RoadDirection.NORTH_EAST;
+        }
+        return directionOptions;
     }
 
-    public void setSouthEastRoad(Road southEastRoad) {
-        this.southEastRoad = southEastRoad;
-    }
+
 }
