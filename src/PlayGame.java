@@ -75,13 +75,6 @@ public class PlayGame {
 
 	}// end twoRoundsOfGameSetUp method
 
-	private void placeSettelment(Player playerPlacingSettlement) {
-
-	}
-
-	private void placeRoad(Player playerPlacingRoad) {
-
-	}
 
 	/**
 	 * Loops the game through turns until a player collects 10 points
