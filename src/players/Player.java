@@ -26,7 +26,7 @@ public class Player {
 	private ArrayList<Settlement> settlements = new ArrayList<>();
 	private ArrayList<City> cities = new ArrayList<>();
 	//ToDo remove comment once road is available
-	private ArrayList<Road> roads;
+	private ArrayList<Road> roads = new ArrayList<>();
 
 	private ArrayList<DevCard> devCards = new ArrayList<>();
 
@@ -54,6 +54,14 @@ public class Player {
         for(int i = 0; i<15;i++){
 	        roads.add(new Road(this));
         }
+    }
+
+    /**
+     * Get the ArrayList of Roads
+     * @return The ArrayList of the Player's roads
+     */
+    public ArrayList<Road> getRoads(){
+	    return roads;
     }
 	/**
 	 * Add resource to hand
@@ -241,27 +249,11 @@ public class Player {
      * @return True if the road placement was successful
      */
     public boolean placeRoad(GameBoard board, Point start, Point end){
-        boolean placementSuccessful = false;
         GridNode startGridNode = board.getGridNode(start);
-        // The settlement on the start GridNode, could return null
-        Settlement startSettlement = startGridNode.getSettlement();
+        GridNode endGridNode = board.getGridNode(end);
+        boolean placementSuccessful = checkRoadPlacementPossible(board,startGridNode,endGridNode);
+
         RoadDirection dirFromStart = DirectionDecider.getRoadDirection(start,end);
-        // Check if startSettlement is an instance of Settlement or a City, ie) Not null
-        if(startSettlement instanceof Settlement){
-            //If start settlement is referenced by the player (owned by them)
-            if(startSettlement.getPlayer() == this){
-                placementSuccessful = true;
-            }
-            // The player does not have a settlement, check if they have a connecting road at start
-        }else if (dirFromStart instanceof RoadDirection){
-            // If there is already a road in the dirFromStart the road is being built, then the placement fails
-            if(startGridNode.getRoadAt(dirFromStart) instanceof Road){
-                placementSuccessful = false;
-                // Check other branches for one of the player's roads
-            } else if(checkOtherBranchesForRoad(startGridNode,dirFromStart)){
-                placementSuccessful = true;
-            }
-        }
         // If placement is allowed then place the road
         if (placementSuccessful){
             // Remove a road from the player's roads
@@ -271,16 +263,71 @@ public class Player {
             // Set start GridNode to the Road object
             rd.setStartNode(startGridNode);
 
-            GridNode endGridNode = board.getGridNode(end);
             endGridNode.setRoadAt(rd,DirectionDecider.getReflection(dirFromStart));
-
-
+            rd.setEndNode(endGridNode);
 
         }
         return placementSuccessful;
     }
 
-    //ToDo testRoads
+    private boolean checkRoadPlacementPossible(GameBoard board, GridNode startGridNode, GridNode endGridNode){
+        boolean placementSuccessful = false;
+
+        RoadDirection dirFromStart=null;
+
+        if (startGridNode instanceof  GridNode && endGridNode instanceof GridNode) {
+            // The settlement on the start GridNode, could return null
+            Settlement startSettlement = startGridNode.getSettlement();
+            // Get direction that the rode is to be built.
+            dirFromStart = DirectionDecider.getRoadDirection(startGridNode.getLocation(),endGridNode.getLocation());
+            // Check if the road direction is an option for the startGridNode
+            if (checkDirectionForNode(startGridNode,dirFromStart)) {
+                // Check if startSettlement is an instance of Settlement or a City, ie) Not null
+                if(startSettlement instanceof Settlement){
+                    //If start settlement is referenced by the player (owned by them)
+                    if(startSettlement.getPlayer() == this){
+                        placementSuccessful = true;
+                        // Cannot place road if settlement is not the player's
+                    }else{
+                        placementSuccessful = false;
+                    }
+                    // The player does not have a settlement, check if they have a connecting road at start
+                    // If there is already a road in the dirFromStart the road is being built, then the placement fails
+                }else if(startGridNode.getRoadAt(dirFromStart) instanceof Road){
+                    placementSuccessful = false;
+                    // Check other branches for one of the player's roads
+                } else if(checkOtherBranchesForRoad(startGridNode,dirFromStart)){
+                    placementSuccessful = true;
+                }
+                // Not a valid end point for a road, cannot place road
+            }else{
+                placementSuccessful = false;
+            }
+            // One or more of the GridNodes returned null, placement fails.
+        } else {
+            placementSuccessful = false;
+        }
+        return placementSuccessful;
+    }
+
+    /**
+     * Checks if the RoadDirection is an option for the GridNode
+     * @param node GridNode being checked
+     * @param attemptedDirection RoadDirection being checked
+     * @return True if attemptedDirection is an option for the node
+     */
+    private boolean checkDirectionForNode(GridNode node, RoadDirection attemptedDirection){
+        boolean directionInOptions = false;
+        int i = 0;
+        RoadDirection[] options = node.getDirectionOptions();
+        while(i < options.length && !directionInOptions){
+            if(options[i].equals(attemptedDirection)){
+                directionInOptions = true;
+            }
+            i++;
+        }
+        return directionInOptions;
+    }
     /**
      * Check the road branches at the start gridNode for another road owned by the Player
      * @param start The GridNode where the road will start

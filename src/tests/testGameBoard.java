@@ -24,9 +24,9 @@ public class testGameBoard {
         showPlayerSettlements(player2);
         System.out.println();
 
-        testPlacement(myBoard,player1,3,0);
-        testPlacement(myBoard,player2, 2,1);
-        testPlacement(myBoard,player1,2,1);
+        placeAndShowSettlement(myBoard,player1,3,0);
+        placeAndShowSettlement(myBoard,player2, 2,1);
+        placeAndShowSettlement(myBoard,player1,2,1);
 
         int diceRoll =  myBoard.getTiles().getTile(0).getToken().getNumber();
         System.out.println("Tile 0 is a: "+myBoard.getTiles().getTile(0).getResource().toString() + " with dice roll: " + diceRoll);
@@ -44,11 +44,11 @@ public class testGameBoard {
 
 
     }
-    private static void showPlayerSettlements(Player myPlayer){
+    public static void showPlayerSettlements(Player myPlayer){
         System.out.println(myPlayer.getName() + " has " + myPlayer.getSettlements().size() + " settlements.");
     }
 
-    private static void testPlacement(GameBoard board, Player myPlayer, int x, int y){
+    public static void placeAndShowSettlement(GameBoard board, Player myPlayer, int x, int y){
         showPlayerSettlements(myPlayer);
         System.out.println(myPlayer.getName() + " attempting to place a settlement at " + x + "," + y);
         boolean successful = myPlayer.placeSettlement(board,x,y);
