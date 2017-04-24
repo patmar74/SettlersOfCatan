@@ -2,13 +2,10 @@ package inclass420;
 
 import java.util.ArrayList;
 
-import otherPeoplesFiles.Banker;
-import otherPeoplesFiles.City;
-import otherPeoplesFiles.GridNode;
-import otherPeoplesFiles.ResourceType;
-import otherPeoplesFiles.Settlement;
-import otherPeoplesFiles.Tile;
-import otherPeoplesFiles.Tiles;
+import boardClasses.GameBoard;
+import guiClasses.DiceGUI;
+import players.Player;
+import resourceClasses.Banker;
 
 /**
  * Each time someone wants to play Settlers of Catan, they will create an
@@ -22,7 +19,7 @@ public class PlayGame {
 	// can change, if we choose to go to a set number of players, this will
 	// become an Array with a set length equal to that set number of players
 	private ArrayList<Player> playerList;
-	private Tiles tiles;
+	private GameBoard board;
 	private Banker banker;
 
 	/**
@@ -173,62 +170,7 @@ public class PlayGame {
 	 * resources per city.
 	 */
 	private void distributeResources(int sumOfRoll) {
-		// an array list of all the tiles who's token value matches the number
-		// rolled
-		ArrayList<Tile> selectedTiles = tiles.getTilesWithDiceRoll(sumOfRoll);
-		// the resource type of a tile
-		ResourceType tileResource;
-		// the GridNodes of a tile
-		ArrayList<GridNode> tileNodes;
-		// a settlement on a tile that was selected
-		Settlement settlement;
-		// the player that owns said settlement
-		Player settlementOwner;
-		// how many resources are distributed by the settlement
-		int resourcesDistrubuted;
-
-		// loops through the tile list
-		for (int tileIndex = 0; tileIndex < selectedTiles.size(); tileIndex++) {
-			// the code checking for settlements on the Tile and then
-			// distributing resources only occurs if the robber is not on the
-			// Tile
-			if (selectedTiles.get(tileIndex).getHasRobber() == false) {
-
-				// sets the Tile's resource
-				tileResource = selectedTiles.get(tileIndex).getResource();
-				// sets the list of the Tiles GridNodes
-				tileNodes = selectedTiles.get(tileIndex).getTilePoints();
-
-				// loops through the Tile's GridNodes
-				for (int tileNodeIndex = 0; tileNodeIndex < tileNodes.size(); tileNodeIndex++) {
-					// checks to see if there is a settlement on the GridNode
-					if (tileNodes.get(tileNodeIndex).getSettlement() instanceof Settlement) {
-						// sets the settlement on the GridNode
-						settlement = tileNodes.get(tileNodeIndex).getSettlement();
-						// sets the settlements owner
-						settlementOwner = settlement.getPlayer();
-
-						// if statement used to set how many resources should be
-						// distributed
-						if (settlement instanceof City) {
-							// Cites get two of the resource from the Tile
-							resourcesDistrubuted = 2;
-						} else {
-							// standard Settlements get one of the resources
-							// from
-							// the Tile
-							resourcesDistrubuted = 1;
-						}
-
-						// distributes the resources to the settlement owner
-						banker.giveResource(settlementOwner, tileResource, resourcesDistrubuted);
-
-					}
-
-				} // end for loop through GridNodes
-			}
-		} // end for loop through selected Tiles
-
+		banker.distributeResources(board,sumOfRoll);
 	}// end distributedResources method
 
 	/**
