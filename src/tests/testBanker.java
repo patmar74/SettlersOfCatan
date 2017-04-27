@@ -59,7 +59,7 @@ public class testBanker {
         displayTradeSuccessful(tradeSuccessful);
         showBank(myBank);
         showHand(player2);
-
+        System.out.println();
     }
 
     /**

@@ -29,7 +29,7 @@ public class testGameBoard {
 
         placeAndShowSettlement(myBoard,player1,3,0, true);
         placeAndShowSettlement(myBoard,player2, 2,1, false);
-        placeAndShowSettlement(myBoard,player1,2,1,false);
+        placeAndShowSettlement(myBoard,player1,2,2,true);
 
         int diceRoll =  myBoard.getTiles().getTile(0).getToken().getNumber();
         System.out.println("Tile 0 is a: "+myBoard.getTiles().getTile(0).getResource().toString() + " with dice roll: " + diceRoll);

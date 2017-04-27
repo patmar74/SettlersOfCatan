@@ -40,7 +40,7 @@ public class DevCard {
     /**
      * Place 2 roads on the board
      */
-//	public doAction(GameBoard myBoard, location1, location2){
+//	public void doAction(GameBoard myBoard, location1, location2){
 //	    myBoard.buildRoad(location1);
 //      myBoard.buildRoad(location2);
 //  }
@@ -53,7 +53,7 @@ public class DevCard {
      */
     //ToDo move robber action
 //	public doAction(GameBoard myBoard, newLocation){
-//	    // myBoard.moveRobber(newLocation);
+//	    myBoard.moveRobber(newLocation);
 //   }
 
     /**
