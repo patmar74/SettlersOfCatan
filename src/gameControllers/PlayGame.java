@@ -64,14 +64,14 @@ public class PlayGame {
 		// first round of game set up
 		for (int playerIndex = 0; playerIndex < playerList.size(); playerIndex++) {
             // ToDo:request position
-			playerList.get(playerIndex).placeSettlement(board,3,0);
+			playerList.get(playerIndex).placeSettlement(board,3,0,true);
 			// ToDo: request position
 			playerList.get(playerIndex).placeRoad(board,new Point(3,0),new Point(2,1));
 		}
 		// second round of game set up, occurs in reverse order
 		for (int playerIndex = playerList.size(); playerIndex > 0; playerIndex--) {
 		    // ToDo: request position
-            playerList.get(playerIndex).placeSettlement(board,3,0);
+            playerList.get(playerIndex).placeSettlement(board,3,0,true);
             // ToDo: request position
             playerList.get(playerIndex).placeRoad(board,new Point(3,0),new Point(2,1));		}
 

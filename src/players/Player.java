@@ -25,7 +25,6 @@ public class Player {
 	private String name;
 	private ArrayList<Settlement> settlements = new ArrayList<>();
 	private ArrayList<City> cities = new ArrayList<>();
-	//ToDo remove comment once road is available
 	private ArrayList<Road> roads = new ArrayList<>();
 
 	private ArrayList<DevCard> devCards = new ArrayList<>();
@@ -214,28 +213,46 @@ public class Player {
      * @param board The GameBoard object for the game
      * @param x X coordinate of the desired GridNode to place the settlement
      * @param y Y coordinate of the desired GridNode to place the settlement
+     * @param isSettingUp Boolean if the game is being setup still. This is important because the first two
+     *           settlements placed DO NOT have to be attached to roads.
      * @return True if the placement was successful. This is useful to the GUI to show a message saying the placement
      * was not successful.
      */
-    public boolean placeSettlement(GameBoard board, int x, int y){
-        //ToDo Add test to see if one of the player's roads is attached to the desired point.
-        //ToDo Add test to see if point is 2 edges away from any other settlement.
+    public boolean placeSettlement(GameBoard board, int x, int y, boolean isSettingUp){
         boolean placementSuccessful = true;
+        GridNode targetNode = board.getGridNode(x,y);
         // If player has a settlement left to place attempt to place it on the board
         if(settlements.size() > 0){
-            GridNode targetNode = board.getGridNode(x,y);
-            // If there is already a Settlement or City on the node then placement fails
-            if(targetNode.getSettlement() instanceof Settlement){
-               placementSuccessful = false;
-            }else {
-                // remove the settlement from player's settlements and place it on the targetNode
-                // and increment player points by 1
-                Settlement settlementBeingPlaced = settlements.remove(0);
-                targetNode.setSettlement(settlementBeingPlaced);
-                points++;
+
+            // If targetNode exists
+            if (targetNode instanceof GridNode) {
+                // If there is already a Settlement or City on the node then placement fails
+                if(targetNode.getSettlement() instanceof Settlement){
+                   placementSuccessful = false;
+                   // If Another settlement is too close to the point, placement fails
+                }else if(board.checkSettlementNearPoint(targetNode)){
+                    placementSuccessful = false;
+                    // If settlement placement not during setup, check if player's road is attached.
+                }else if(!isSettingUp){
+                    // If a player does not have a road attached to the target node, placement fails
+                    if(!checkPlayerRoadConnected(targetNode)){
+                        placementSuccessful = false;
+                    }
+                }
+            } else { // targetNode does not exist, placement fails.
+                placementSuccessful = false;
             }
-        }else{
+        }else{ // player does not have enough settlements
             placementSuccessful = false;
+        }
+
+        if(placementSuccessful){
+            // Place the settlement
+            // remove the settlement from player's settlements and place it on the targetNode
+            // and increment player points by 1
+            Settlement settlementBeingPlaced = settlements.remove(0);
+            targetNode.setSettlement(settlementBeingPlaced);
+            points++;
         }
         return placementSuccessful;
     }
@@ -319,7 +336,7 @@ public class Player {
     private boolean checkDirectionForNode(GridNode node, RoadDirection attemptedDirection){
         boolean directionInOptions = false;
         int i = 0;
-        RoadDirection[] options = node.getDirectionOptions();
+        RoadDirection[] options = DirectionDecider.getDirectionOptions(node.getLocation());
         while(i < options.length && !directionInOptions){
             if(options[i].equals(attemptedDirection)){
                 directionInOptions = true;
@@ -336,7 +353,7 @@ public class Player {
      */
     private boolean checkOtherBranchesForRoad(GridNode start, RoadDirection directionBuilt){
         boolean playerRoadConnected = false;
-        RoadDirection[] directions = start.getDirectionOptions(); // Gets array of directions for that gridNode
+        RoadDirection[] directions = DirectionDecider.getDirectionOptions(start.getLocation()); // Gets array of directions for that gridNode
         int i = 0;
                 //Loop through until all directions are checked, but stop if a road is connected
         while(i< directions.length && !playerRoadConnected){
@@ -357,6 +374,24 @@ public class Player {
         }
         return playerRoadConnected;
     }
+
+    /**
+     * Check if a player's road is connected to a GridNode
+     * @param target The GridNode being checked
+     * @return True if a player's road is connected to the GridNode
+     */
+    // Check is a player's road is connected to
+    private boolean checkPlayerRoadConnected(GridNode target){
+        boolean roadConnected = false;
+        for(Road rd: target.getAllRoads()){
+            if(rd.getOwner() == this){
+                roadConnected = true;
+                break;
+            }
+        }
+        return roadConnected;
+    }
+
 
 
 

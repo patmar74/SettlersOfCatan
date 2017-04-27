@@ -1,5 +1,8 @@
 package boardClasses;
 
+import players.DirectionDecider;
+import players.RoadDirection;
+import players.Settlement;
 import resourceClasses.ResourceType;
 
 import java.awt.*;
@@ -95,6 +98,32 @@ public class GameBoard {
     }
 
     //ToDo Add method to get an ArrayList af all tiles attached to a specific node
-    //ToDo Change GridNode to extend java.awt.Point
+
+    /**
+     * Checks if a settlement is within 2 edges to a specified point.
+     * This will be used to check if a settlement placement point is valid.
+     * @param currentNode The possible settlement node that is being checked for valid placement.
+     * @return True if a settlement has been found within 2 edges (ie 1 adjacent point)
+     */
+    public boolean checkSettlementNearPoint(GridNode currentNode){
+        boolean settlementFound = false; // True if the settlement has been found
+        int i = 0;
+        // Gets the possible branches for the point
+        RoadDirection[]  branches = DirectionDecider.getDirectionOptions(currentNode.getLocation());
+        // Loop through all branches or until a settlement is found
+        while(i < branches.length && !settlementFound){
+            // sets nextPoint for the branch
+            Point nextPoint = DirectionDecider.getNextPoint(branches[i],currentNode);
+            GridNode nextNode = getGridNode(nextPoint);
+            // check existance of gridNode prior to calling a GridNode method.
+            if(nextNode instanceof GridNode){
+                    // Sets settlement found if nextNode has a Settlement
+                    settlementFound = nextNode.getSettlement() instanceof Settlement;
+            }
+            i++;
+        }
+        return settlementFound;
+    }
+
 
 }

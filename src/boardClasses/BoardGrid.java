@@ -32,8 +32,8 @@ public class BoardGrid {
      * @param x
      * @param y
      * @return The GridNode if x,y is within the bounds of the BoardGrid.
-     * @return null if x,y is out of the bounds of the BoardGrid
-     * @nullable
+     * null if x,y is out of the bounds of the BoardGrid
+     *
      */
     public GridNode getNode(int x, int y){
         if(y<0 || y >= maxY){

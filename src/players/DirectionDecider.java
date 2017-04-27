@@ -1,5 +1,8 @@
 package players;
 
+import boardClasses.GameBoard;
+import boardClasses.GridNode;
+
 import java.awt.*;
 
 /**
@@ -93,5 +96,68 @@ public class DirectionDecider {
         }
         return reflection;
     }
+
+    /**
+     * Gets the next point in a specific direction
+     * @param dir
+     * @param currentNode The reference node for finding the next node
+     * @return The next Point in the specified direction
+     */
+    public static Point getNextPoint(RoadDirection dir, GridNode currentNode){
+        Point nextPoint = new Point(currentNode.getLocation());
+        switch (dir){
+            case NORTH:{
+                nextPoint.y -= 1;
+                break;
+            }
+            case NORTH_EAST:{
+                nextPoint.x += 1;
+                nextPoint.y -= 1;
+                break;
+            }
+            case SOUTH_EAST:{
+                nextPoint.x += 1;
+                nextPoint.y += 1;
+                break;
+            }
+            case SOUTH:{
+                nextPoint.y += 1;
+                break;
+            }
+            case SOUTH_WEST:{
+                nextPoint.x -= 1;
+                nextPoint.y += 1;
+                break;
+            }
+            case NORTH_WEST:{
+                nextPoint.x -= 1;
+                nextPoint.y -= 1;
+                break;
+            }
+        }
+        return nextPoint;
+    }
+
+    /**
+     * Gets an Array of all options that a road can be built on for the GridNode. The array is ordered staring with the
+     * vertical direction and rotating clockwise.
+     * @return <p>If y value of the GridNode location is even then return [NORTH,SOUTH_EAST,SOUTH_WEST].
+     * If y value is odd then return [SOUTH,NORTH_WEST,NORTH_EAST]</p>
+     */
+    public static RoadDirection[] getDirectionOptions(Point pt){
+        RoadDirection[] directionOptions = new RoadDirection[3];
+        if(pt.y % 2 == 0){
+            directionOptions[0] = RoadDirection.NORTH;
+            directionOptions[1] = RoadDirection.SOUTH_EAST;
+            directionOptions[2] = RoadDirection.SOUTH_WEST;
+        }else{
+            directionOptions[0] = RoadDirection.SOUTH;
+            directionOptions[1] = RoadDirection.NORTH_WEST;
+            directionOptions[2] = RoadDirection.NORTH_EAST;
+        }
+        return directionOptions;
+    }
+
+
 
 }

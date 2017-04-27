@@ -2,8 +2,10 @@ package tests;
 
 import boardClasses.GameBoard;
 
+import boardClasses.GridNode;
 import players.Player;
 
+import players.Settlement;
 import resourceClasses.Banker;
 
 import java.awt.*;
@@ -24,9 +26,9 @@ public class testGameBoard {
         showPlayerSettlements(player2);
         System.out.println();
 
-        placeAndShowSettlement(myBoard,player1,3,0);
-        placeAndShowSettlement(myBoard,player2, 2,1);
-        placeAndShowSettlement(myBoard,player1,2,1);
+        placeAndShowSettlement(myBoard,player1,3,0, true);
+        placeAndShowSettlement(myBoard,player2, 2,1, false);
+        placeAndShowSettlement(myBoard,player1,2,1,false);
 
         int diceRoll =  myBoard.getTiles().getTile(0).getToken().getNumber();
         System.out.println("Tile 0 is a: "+myBoard.getTiles().getTile(0).getResource().toString() + " with dice roll: " + diceRoll);
@@ -48,12 +50,15 @@ public class testGameBoard {
         System.out.println(myPlayer.getName() + " has " + myPlayer.getSettlements().size() + " settlements.");
     }
 
-    public static void placeAndShowSettlement(GameBoard board, Player myPlayer, int x, int y){
+    public static void placeAndShowSettlement(GameBoard board, Player myPlayer, int x, int y, boolean isSettingUp){
         showPlayerSettlements(myPlayer);
         System.out.println(myPlayer.getName() + " attempting to place a settlement at " + x + "," + y);
-        boolean successful = myPlayer.placeSettlement(board,x,y);
+        boolean successful = myPlayer.placeSettlement(board,x,y,isSettingUp);
         System.out.println("Placement successful = " + successful );
         showPlayerSettlements(myPlayer);
+        if(board.getGridNode(x,y) instanceof GridNode){
+            System.out.println("(" + x + ","+y + ") has a settlement = " +  (board.getGridNode(x,y).getSettlement() instanceof Settlement));
+        }
         System.out.println();
     }
 }

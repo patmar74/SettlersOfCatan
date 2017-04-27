@@ -1,10 +1,12 @@
 package boardClasses;
 
+import players.DirectionDecider;
 import players.Road;
 import players.RoadDirection;
 import players.Settlement;
 
 import java.awt.*;
+import java.util.ArrayList;
 
 /**
  * @author Patrick Martin
@@ -141,27 +143,27 @@ public class GridNode extends Point{
             }
 
         }
+
     }
 
     /**
-     * Gets an Array of all options that a road can be built on for the GridNode. The array is ordered staring with the
-     * vertical direction and rotating clockwise.
-     * @return <p>If y value of the GridNode location is even then return [NORTH,SOUTH_EAST,SOUTH_WEST].
-     * If y value is odd then return [SOUTH,NORTH_WEST,NORTH_EAST]</p>
+     * Gets an ArrayList of all roads attached to this GridNode
+     * @return ArrayList<Road> All roads attached to the gridNode. If there are no roads attached,
+     * this will return an empty ArrayList.
      */
-    public RoadDirection[] getDirectionOptions(){
-        RoadDirection[] directionOptions = new RoadDirection[3];
-        if(this.y % 2 == 0){
-            directionOptions[0] = RoadDirection.NORTH;
-            directionOptions[1] = RoadDirection.SOUTH_EAST;
-            directionOptions[2] = RoadDirection.SOUTH_WEST;
-        }else{
-            directionOptions[0] = RoadDirection.SOUTH;
-            directionOptions[1] = RoadDirection.NORTH_WEST;
-            directionOptions[2] = RoadDirection.NORTH_EAST;
+    public ArrayList<Road> getAllRoads(){
+        ArrayList roadsAttached = new ArrayList();
+        // for each direction in the DirectionOptions Array, if the road at that direction exists then add it to the
+        // roadsAttached ArrayList
+        for(RoadDirection dir : DirectionDecider.getDirectionOptions(this.getLocation())){
+            Road rd = getRoadAt(dir);
+            if(rd instanceof Road){
+                roadsAttached.add(rd);
+            }
         }
-        return directionOptions;
+        return roadsAttached;
     }
+
 
 
 }

@@ -24,7 +24,7 @@ public class testRoad {
         placeAndShowRoad(board,player1,new Point(3,0),new Point(2,1));
 
         System.out.println("Test 2");
-        testGameBoard.placeAndShowSettlement(board,player1,3,0);
+        testGameBoard.placeAndShowSettlement(board,player1,3,0, true);
         System.out.println( "settlement placed, valid start point, end point out of bounds");
         placeAndShowRoad(board,player1, new Point(3,0), new Point (3,-1));
 
