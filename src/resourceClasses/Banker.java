@@ -4,6 +4,7 @@ import boardClasses.GameBoard;
 import boardClasses.GridNode;
 import boardClasses.Tile;
 import boardClasses.Tiles;
+import developmentCards.DevCard;
 import players.Player;
 import players.Settlement;
 
@@ -295,4 +296,13 @@ public class Banker {
             i++;
         }
     }
+	public void giveDevelopment(Player player, DevCard card)
+	{
+		player.addDevCard(card);
+	}
+	public void removeDevelopment(Player player, DevCard card)
+	{
+		player.removeDevCard(card);
+	}
+
 }// end Class

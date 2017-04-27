@@ -1,9 +1,6 @@
 package boardClasses;
 
-import players.DirectionDecider;
-import players.Road;
-import players.RoadDirection;
-import players.Settlement;
+import players.*;
 
 import java.awt.*;
 import java.util.ArrayList;
@@ -25,6 +22,7 @@ import java.util.ArrayList;
  */
 public class GridNode extends Point{
     private Settlement mySettlement; // The settlement on that point
+    private City myCity; // The city at that point
     // Knight myKnight; // The Knight on that point
     // ToDo Remove comment once Knight class has been created
     private Road northRoad;
@@ -70,6 +68,14 @@ public class GridNode extends Point{
         }else{
             return null;
         }
+    }
+
+    public void setCity(City myCity){
+        this.myCity = myCity;
+    }
+
+    public City getCity(){
+        return myCity;
     }
 
     /**

@@ -3,6 +3,7 @@ package tests;
 import boardClasses.GameBoard;
 
 import boardClasses.GridNode;
+import players.City;
 import players.Player;
 
 import players.Settlement;
@@ -59,6 +60,21 @@ public class testGameBoard {
         if(board.getGridNode(x,y) instanceof GridNode){
             System.out.println("(" + x + ","+y + ") has a settlement = " +  (board.getGridNode(x,y).getSettlement() instanceof Settlement));
         }
+        System.out.println();
+    }
+
+    public static void placeAndShowCity(GameBoard board, Player myPlayer, int x, int y){
+        showPlayerSettlements(myPlayer);
+        System.out.println(myPlayer.getName() + " attempting to place a city at " + x + "," + y);
+        boolean successful = myPlayer.placeCity(board,x,y);
+        System.out.println("Placement successful = " + successful );
+        showPlayerSettlements(myPlayer);
+        System.out.println(myPlayer.getName() + " has " + myPlayer.getCities().size() + " cities");
+        System.out.println(myPlayer.getName() + " has " + myPlayer.getPoints() + " points.");
+        if(board.getGridNode(x,y) instanceof GridNode){
+            System.out.println("(" + x + ","+y + ") has a city = " +  (board.getGridNode(x,y).getCity() instanceof City));
+        }
+        showPlayerSettlements(myPlayer);
         System.out.println();
     }
 }

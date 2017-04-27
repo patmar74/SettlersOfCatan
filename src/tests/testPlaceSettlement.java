@@ -42,12 +42,25 @@ public class testPlaceSettlement {
         System.out.println("Player1 now attempts to place settlement at end of his road, should place");
         testGameBoard.placeAndShowSettlement(board,player1,2,2, false);
 
-        System.out.println("Test 7");
+        System.out.println("City Test 1");
         System.out.println("Player1 attempts to place a city on a spot that does not have a settlement, should fail");
+        testGameBoard.placeAndShowCity(board,player1,3,3);
 
+        System.out.println("City Test 2");
+        System.out.println("Player2 attempts to place a city on player 2's settlement, should fail");
+        testGameBoard.placeAndShowCity(board,player2,3,0);
 
+        System.out.println("City Test 3");
+        System.out.println("Player1 attempts to place a city on his settlement, should place");
+        testGameBoard.placeAndShowCity(board,player1,3,0);
 
+        System.out.println("City Test 4");
+        System.out.println("Player1 attempts to place a city on a spot that already has a city, should fail.");
+        testGameBoard.placeAndShowCity(board,player1,3,0);
 
+        System.out.println("City Test 5");
+        System.out.println("Player1 attempts to upgrade one of his settlements, should place");
+        testGameBoard.placeAndShowCity(board,player1,2,2);
 
     }
 

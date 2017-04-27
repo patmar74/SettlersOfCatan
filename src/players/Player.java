@@ -392,6 +392,57 @@ public class Player {
         return roadConnected;
     }
 
+    /**
+     * Places a city at a specific point and returns the settlement on the point to the player.
+     * This also increases the player's points by one because it is replacing a settlement(1pt) with a city(2pts.)
+     * The following are the conditions for successful placement:
+     * The player still has cities, The GridNode at (x,y) exists, There is a settlement at the GridNode
+     * The settlement at the GridNode is owned by the Player, The Settlement is not already a city
+     * @param board The GameBoard object for the game
+     * @param x The desired x position
+     * @param y The desired y position
+     * @return True if city placement was successful.
+     */
+    public boolean placeCity(GameBoard board,int x, int y) {
+        boolean placementSuccessful = false;
+        GridNode targetNode = board.getGridNode(x, y);
+        if (cities.size() > 0) {
+            // Check that the GridNode exists
+            if (targetNode instanceof GridNode) {
+                // Check that there is a settlement at the GridNode
+                if (targetNode.getSettlement() instanceof Settlement) {
+                    // Check that the settlement is owned by the player
+                    if(targetNode.getSettlement().getPlayer() == this){
+                        // Check that the settlement is not already a city
+                        if(!(targetNode.getCity() instanceof City)){
+                            placementSuccessful = true;
+                        }
+                    }
+                }
+            }
+        }
+        // if all conditions are satisfied, then the city is placed
+        if (placementSuccessful) {
+            // add Settlement on GridNode back to player's settlements ArrayList
+            settlements.add(targetNode.getSettlement());
+            // remove reference from GridNode
+            targetNode.setSettlement(null);
+            // remove a City and place it on the GridNode
+            targetNode.setCity(cities.remove(0));
+            points++;
+        }
+        return placementSuccessful;
+    }
+
+    public void addDevCard(DevCard card)
+    {
+        devCards.add(card);
+    }
+    public void removeDevCard(DevCard card)
+    {
+        devCards.remove(card);
+    }
+
 
 
 
