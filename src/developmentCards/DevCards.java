@@ -9,7 +9,7 @@ import java.util.Random;
 public class DevCards {
     //Array of DevCards that will represent the Deck
     ArrayList<DevCard> deck  = new ArrayList<>();
-    public DevCards(DevCard[] realDeck)
+    public DevCards()
     {
        setupDeck();
        shuffleDeck();
@@ -54,5 +54,12 @@ public class DevCards {
 
     }
 
+    /**
+     * Remove top card from the deck and return it
+     * @return The top development card on the development card deck.
+     */
+    public DevCard removeCardFromDeck(){
+        return deck.remove(0);
+    }
 
 }

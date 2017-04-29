@@ -5,6 +5,7 @@ import boardClasses.GridNode;
 import boardClasses.Tile;
 import boardClasses.Tiles;
 import developmentCards.DevCard;
+import developmentCards.DevCards;
 import players.Player;
 import players.Settlement;
 
@@ -20,12 +21,14 @@ import java.util.Set;
  */
 public class Banker {
 	ResourceBank myBank;
+	DevCards devCardDeck;
 
 	/**
-	 * Constructor
+	 * Constructor initializes bank of resource cards and the deck of development cards.
 	 */
 	public Banker() {
 		myBank = new ResourceBank();
+		devCardDeck = new DevCards();
 	}
 
 	/**
@@ -296,13 +299,20 @@ public class Banker {
             i++;
         }
     }
-	public void giveDevelopment(Player player, DevCard card)
-	{
-		player.addDevCard(card);
-	}
-	public void removeDevelopment(Player player, DevCard card)
-	{
-		player.removeDevCard(card);
+
+    /**
+     * Gives a development card to the player
+     * @param player The player being given the dev card
+     * @return True if there was enough Development Cards in the deck to give to the player.
+     */
+	public boolean giveDevCard(Player player) {
+	    boolean successful = false;
+		DevCard card = devCardDeck.removeCardFromDeck();
+		if(card instanceof DevCard){
+            player.addDevCard(card);
+            successful = true;
+        }
+        return successful;
 	}
 
 }// end Class
