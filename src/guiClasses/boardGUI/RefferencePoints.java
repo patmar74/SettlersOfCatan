@@ -1,10 +1,11 @@
 package guiClasses.boardGUI;
 
+import boardClasses.GameBoard;
+import boardClasses.Tile;
+
 import java.awt.Point;
 import java.util.ArrayList;
 
-import otherPeoplesFiles.GameBoard;
-import otherPeoplesFiles.Tile;
 
 /**
  * 

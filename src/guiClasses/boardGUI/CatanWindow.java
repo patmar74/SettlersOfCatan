@@ -4,6 +4,10 @@
  */
 package guiClasses.boardGUI;
 
+import boardClasses.GameBoard;
+import boardClasses.Tile;
+import resourceClasses.ResourceType;
+
 import java.awt.Color;
 import java.awt.EventQueue;
 import java.awt.Image;
@@ -16,9 +20,7 @@ import javax.swing.JFrame;
 import javax.swing.JLabel;
 import javax.swing.JPanel;
 
-import otherPeoplesFiles.GameBoard;
-import otherPeoplesFiles.ResourceType;
-import otherPeoplesFiles.Tile;
+
 
 /*
  * The Robber needs to be painted, and Tokens need to be painted to start
