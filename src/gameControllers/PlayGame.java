@@ -199,4 +199,48 @@ public class PlayGame {
 
 	}// end constructionPhase method
 
+    //ToDo change this so that it works
+    /**
+     * Joey's method to check which player has the longest road.
+     * @param currentPlayer
+     * @return
+     */
+//    public Player checkLongestRoad(Player currentPlayer)
+//    {
+//        //Length of roads in array 1
+//        int valueToCompare1 = currentPlayer.getRoad1Length();
+//        // length of roads in array 2
+//        int valueToCompare2 = currentPlayer.getRoad2Length();
+//        // check if players roads are connected
+//        if(currentPlayer.isJoint())
+//        {
+//            int newValueToCompare = valueToCompare1+valueToCompare2;
+//            // check if joint roads are connected
+//            if(newValueToCompare > longestRoad)
+//            {
+//                longestRoad = newValueToCompare;
+//                longestRoadPlayer = currentPlayer;
+//            }
+//            //check if array 1 is longest
+//        }
+//        if(valueToCompare1 > longestRoad)
+//        {
+//            longestRoad = valueToCompare1;
+//            longestRoadPlayer = currentPlayer;
+//        }
+//        // check if road 2 is longest
+//        if(valueToCompare2 > longestRoad)
+//        {
+//            longestRoad = valueToCompare2;
+//            longestRoadPlayer = currentPlayer;
+//        }
+//        // if current longest road is greater than 5 add 2 points to player
+//        //****NEEDS TO SUBTRACT FROM OLD PLAYER IF NEW LONGEST ROAD***** ADD
+//        if(longestRoad > 5)
+//        {
+//            int currentPoints = currentPlayer.getPoints();
+//            currentPlayer.setPoints(currentPoints + 2);
+//        }
+//
+//    }
 }// end PlayGame class

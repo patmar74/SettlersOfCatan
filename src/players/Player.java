@@ -5,7 +5,6 @@ import java.lang.IllegalArgumentException;
 
 import boardClasses.GameBoard;
 import boardClasses.GridNode;
-import com.sun.javaws.exceptions.InvalidArgumentException;
 import developmentCards.DevCard;
 import resourceClasses.ResourceType;
 
@@ -97,7 +96,7 @@ public class Player {
      * @throws IllegalArgumentException if any quantities cannot be fulfilled. ie) Hand has 1 wheat, but 2 wheat are
      * being offered.
      */
-    public ArrayList<ResourceType> buildOffering(int qtyWheat,int qtyWool,int qtyOre,int qtyLumber, int qtyBrick) throws InvalidArgumentException{
+    public ArrayList<ResourceType> buildOffering(int qtyWheat,int qtyWool,int qtyOre,int qtyLumber, int qtyBrick) throws IllegalArgumentException{
         ArrayList<ResourceType> copiedHand = getHand();
         ArrayList<ResourceType> offering = new ArrayList<>();
         // If enough wheat is available then add it to the offering
@@ -282,6 +281,9 @@ public class Player {
 
             endGridNode.setRoadAt(rd,DirectionDecider.getReflection(dirFromStart));
             rd.setEndNode(endGridNode);
+            // checks for longest road and modifies the array lengths accordingly
+            //ToDo check how this actually works and uncomment
+            //checkLongestRoad(board,start,end);
 
         }
         return placementSuccessful;
@@ -443,7 +445,123 @@ public class Player {
         devCards.remove(card);
     }
 
-
-
+    //ToDo Fix longest road method and uncomment
+//    // check specific for the longest road
+//    private boolean checkRoadConnected(GridNode target, ArrayList<Road> roads)
+//    {
+//        //Target points to check if it is next to a road
+//        int targetX = (int)target.getX();
+//        int targetY = (int)target.getY();
+//        // for loop cycles through all the points in the array that it is checking
+//        // there can only be 2 arrays so we run this method twice for both as seen
+//        // in the check
+//        for(int i = 0; i< (roads).size(); i ++)
+//        {
+//            //road is set to current road and gridnodes are taken out to take position
+//            //values
+//            Road currentRoad = roads.get(i);
+//            GridNode startTestNode = currentRoad.getStartNode();
+//            GridNode endTestNode = currentRoad.getEndNode();
+//            int startX = (int)startTestNode.getX();
+//            int startY = (int)startTestNode.getY();
+//            int endX = (int)endTestNode.getX();
+//            int endY = (int)endTestNode.getY();
+//            // if statement that checks if either node is next to another thus
+//            //indicating that the roads are connected and we can return true
+//            if((targetX + 1) == startX && (targetY + 1) == startY)
+//            {
+//                return true;
+//            }
+//            if((targetX - 1) == startX && (targetY + 1) == startY)
+//            {
+//                return true;
+//            }
+//            if((targetX + 1) == startX && (targetY - 1) == startY)
+//            {
+//                return true;
+//            }
+//            if((targetX - 1) == startX && (targetY - 1) == startY)
+//            {
+//                return true;
+//            }
+//            //end nodes
+//            if((targetX + 1) == endX && (targetY + 1) == endY)
+//            {
+//                return true;
+//            }
+//            if((targetX - 1) == startX && (targetY + 1) == endY)
+//            {
+//                return true;
+//            }
+//            if((targetX + 1) == endX && (targetY - 1) == endY)
+//            {
+//                return true;
+//            }
+//            if((targetX - 1) == endX && (targetY - 1) == endY)
+//            {
+//                return true;
+//            }
+//        }
+//        // if loop fails and no road is near the method returns
+//        //false the roads are not near in the array
+//        return false;
+//    }
+//    // invocation of the check if the roads are connected in the arrays to see
+//    //whom has the longest road
+//    public void checkLongestRoad(GameBoard board,Point start, Point end)
+//    {
+//        // start node of the new road that is created and end node used to compare
+//        //to each value in each array as specified in the method above.
+//        GridNode startNode = board.getGridNode(start);
+//        GridNode endNode = board.getGridNode(end);
+//        if(checkRoadConnected(startNode,roads1) == true || checkRoadConnected(endNode,roads1) == true)
+//        {
+//            // if method returns true and they are connected the length of the road is
+//            //increased by 1
+//            roads1Length++;
+//        }
+//        if(checkRoadConnected(startNode,roads2) == true || checkRoadConnected(endNode,roads2) == true)
+//        {
+//            roads2Length++;
+//            // if method returns true and they are connected the length of the road is
+//            //increased by 1
+//        }
+//        // for loop to compare each position in the arrays to one another to see if
+//        // the roads are connected is an extension of joint **erase maybe?
+//        for(int i = 0; i<roads1.size(); i++)
+//        {
+//            // get current road in the array
+//            Road currentRoad = roads1.get(i);
+//            GridNode newStartNode = currentRoad.getStartNode();
+//            GridNode newEndNode = currentRoad.getEndNode();
+//
+//            if(checkRoadConnected(newStartNode, roads2) == true || checkRoadConnected(newEndNode, roads2) == true)
+//            {
+//                // returns combined length if joint
+//                roadsJointLength = roads1Length + roads2Length;
+//            }
+//        }
+//    }
+//    //Checks if roads are joint
+//    public boolean isJoint()
+//    {
+//        // same as above for loop but returns true/false if joint used in play class
+//        // for flow
+//        for(int i = 0; i<roads1.size(); i++)
+//        {
+//            Road currentRoad = roads1.get(i);
+//            GridNode newStartNode = currentRoad.getStartNode();
+//            GridNode newEndNode = currentRoad.getEndNode();
+//
+//            if(checkRoadConnected(newStartNode, roads2) == true || checkRoadConnected(newEndNode, roads2) == true)
+//            {
+//                roadsJointLength = roads1Length + roads2Length;
+//                return true;
+//            }
+//        }
+//        // returns false if not joint
+//        return false;
+//    }
+//
 
 }
