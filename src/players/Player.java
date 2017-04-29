@@ -5,6 +5,7 @@ import java.lang.IllegalArgumentException;
 
 import boardClasses.GameBoard;
 import boardClasses.GridNode;
+import boardClasses.Harbor;
 import developmentCards.DevCard;
 import resourceClasses.ResourceType;
 
@@ -25,8 +26,8 @@ public class Player {
 	private ArrayList<Settlement> settlements = new ArrayList<>();
 	private ArrayList<City> cities = new ArrayList<>();
 	private ArrayList<Road> roads = new ArrayList<>();
-
 	private ArrayList<DevCard> devCards = new ArrayList<>();
+	private ArrayList<Harbor> harbors = new ArrayList<>();
 
 	// Arraylist of resource cards player has in their hand
 	private ArrayList<ResourceType> hand = new ArrayList<>();
@@ -208,7 +209,8 @@ public class Player {
     /**
      * Place one of the players Settlements on the board, if a Settlement is already on the desired GridNode, then the
      * placement fails. If the player does not have any more settlements, the placement fails. If placement succeeds,
-     * the player places one of their settlements on the board and gains a point.
+     * the player places one of their settlements on the board and gains a point. If the placement succeeds and there is
+     * a harbor on the targetNode, then add the harbor to the player's harbors ArrayList.
      * @param board The GameBoard object for the game
      * @param x X coordinate of the desired GridNode to place the settlement
      * @param y Y coordinate of the desired GridNode to place the settlement
@@ -252,6 +254,12 @@ public class Player {
             Settlement settlementBeingPlaced = settlements.remove(0);
             targetNode.setSettlement(settlementBeingPlaced);
             points++;
+            //find if harbor is on targetNode, if it is add it to the harbors ArrayList
+            Harbor harborOnTarget = targetNode.getHarbor();
+            if(harborOnTarget instanceof Harbor){
+                harbors.add(harborOnTarget);
+            }
+
         }
         return placementSuccessful;
     }

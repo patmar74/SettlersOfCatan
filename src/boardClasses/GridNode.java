@@ -23,6 +23,7 @@ import java.util.ArrayList;
 public class GridNode extends Point{
     private Settlement mySettlement; // The settlement on that point
     private City myCity; // The city at that point
+    private Harbor myHarbor; // The harbor attached to the grid node
     // Knight myKnight; // The Knight on that point
     // ToDo Remove comment once Knight class has been created
     private Road northRoad;
@@ -168,6 +169,24 @@ public class GridNode extends Point{
             }
         }
         return roadsAttached;
+    }
+
+    /**
+     * Sets the Harbor that is attached to this gridNode
+     * @param myHarbor
+     */
+    public void setHarbor(Harbor myHarbor){
+        this.myHarbor = myHarbor;
+    }
+
+    /**
+     * Gets the Harbor that is attached to this gridNode
+     *
+     * @return This will return the Harbor object that is connected to the GridNode,
+     * It WILL return null if there is no Harbor attached to the GridNode.
+     */
+    public Harbor getHarbor(){
+        return myHarbor;
     }
 
 

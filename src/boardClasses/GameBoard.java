@@ -27,7 +27,7 @@ public class GameBoard {
         grid = new BoardGrid();
         gameTiles = new Tiles(grid);
         indexOfRobber = getIndexOfDesert();
-
+        assignHarbors();
     }
     public BoardGrid getGrid() {
         return grid;
@@ -125,7 +125,49 @@ public class GameBoard {
         return settlementFound;
     }
 
+    /**
+     * Creates and Assigns all harbors to the appropriate gridNodes
+     */
+    private void assignHarbors(){
+        Harbor currentHarbor = new Harbor(ResourceType.DESERT);
+        assignHarbor(currentHarbor, 3,0);
+        assignHarbor(currentHarbor, 2,1);
+        currentHarbor = new Harbor(ResourceType.WHEAT);
+        assignHarbor(currentHarbor,5,0);
+        assignHarbor(currentHarbor,6,1);
+        currentHarbor = new Harbor(ResourceType.ORE);
+        assignHarbor(currentHarbor,8,2);
+        assignHarbor(currentHarbor,9,3);
+        currentHarbor = new Harbor(ResourceType.DESERT);
+        assignHarbor(currentHarbor,10,5);
+        assignHarbor(currentHarbor,10,6);
+        currentHarbor = new Harbor(ResourceType.WOOL);
+        assignHarbor(currentHarbor,9,8);
+        assignHarbor(currentHarbor,8,9);
+        currentHarbor = new Harbor(ResourceType.DESERT);
+        assignHarbor(currentHarbor,6,10);
+        assignHarbor(currentHarbor,5,11);
+        currentHarbor = new Harbor(ResourceType.DESERT);
+        assignHarbor(currentHarbor,3,11);
+        assignHarbor(currentHarbor,2,10);
+        currentHarbor = new Harbor(ResourceType.BRICK);
+        assignHarbor(currentHarbor,1,8);
+        assignHarbor(currentHarbor,1,7);
+        currentHarbor = new Harbor(ResourceType.LUMBER);
+        assignHarbor(currentHarbor,1,4);
+        assignHarbor(currentHarbor,1,3);
+    }
 
+    /**
+     * Assigns a harbor to a gridNode at a specific point.
+     * This does not need to check for null GridNode references because it will be hardcoded.
+     * @param myHarbor
+     * @param x
+     * @param y
+     */
+    private void assignHarbor(Harbor myHarbor, int x, int y){
+        getGridNode(x,y).setHarbor(myHarbor);
+    }
 
 
 }

@@ -35,7 +35,7 @@ public class testBanker {
 
         try {
             myBank.initPlayerTrade(player1, player1.buildOffering(0,0,0,0,1),player2, player2.buildOffering(0,0,0,3,0));
-        } catch (InvalidArgumentException e) {
+        } catch (IllegalArgumentException e) {
             System.out.println(e.getMessage());
         }
         showBank(myBank);
