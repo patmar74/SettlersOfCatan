@@ -3,6 +3,7 @@ package tests;
 import boardClasses.GameBoard;
 
 import boardClasses.GridNode;
+import boardClasses.Tile;
 import players.City;
 import players.Player;
 
@@ -10,6 +11,7 @@ import players.Settlement;
 import resourceClasses.Banker;
 
 import java.awt.*;
+import java.util.ArrayList;
 
 
 /**
@@ -21,13 +23,13 @@ public class testGameBoard {
         Banker myBanker = new Banker();
         Player player1 = new Player("Player 1", Color.BLUE);
         Player player2 = new Player("Player 2", Color.RED);
-        testTiles.showTiles(myBoard.getTiles(),myBoard.getGrid());
+        testTiles.showTiles(myBoard);
         System.out.println();
         showPlayerSettlements(player1);
         showPlayerSettlements(player2);
         System.out.println();
 
-        placeAndShowSettlement(myBoard,player1,3,0, true);
+        placeAndShowSettlement(myBoard,player1,7,8, true);
         placeAndShowSettlement(myBoard,player2, 2,1, false);
         placeAndShowSettlement(myBoard,player1,2,2,true);
 
@@ -44,6 +46,19 @@ public class testGameBoard {
         testBanker.showHand(player1);
         testBanker.showHand(player2);
         testBanker.showBank(myBanker);
+
+        testTiles.showTiles(myBoard);
+        ArrayList<Tile> tilesConnected = myBoard.findTiles(player1.getStartingNode(1));
+        System.out.println("Resources attached to "  + "(7,8) are: ");
+        for(Tile t: tilesConnected){
+            System.out.print(t.getResource() + ",");
+        }
+
+        tilesConnected = myBoard.findTiles(myBoard.getGridNode(5,0));
+        System.out.println("Resources attached to "  + "(5,0) are: ");
+        for(Tile t: tilesConnected){
+            System.out.print(t.getResource() + ",");
+        }
 
 
     }
@@ -76,5 +91,6 @@ public class testGameBoard {
         }
         showPlayerSettlements(myPlayer);
         System.out.println();
+
     }
 }

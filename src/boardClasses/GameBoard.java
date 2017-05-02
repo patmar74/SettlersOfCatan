@@ -366,5 +366,56 @@ public class GameBoard {
         return roadsTraversed;
     }
 
+    /**
+     * Finds all Tiles that are connected to a specific GridNode; This is useful for the very beginning of the game when
+     * the player chooses which settlement to get the resources of.
+     * @param searchNode
+     * @return An ArrayList of Tile objects that connect with the GridNode
+     */
+    public ArrayList<Tile> findTiles(GridNode searchNode)
+    {
+        //ArrayList that will be returned containing all tiles that this grid node is attached to
+        ArrayList<Tile> connectedTiles = new ArrayList<>();
+        // Variables to contain the tiles being compared to search value
+        Tile currentTile;
+        // current node on tile being inspected on current tile
+        GridNode currentNode;
+        // all node points for current tile
+        ArrayList<GridNode> currentNodePoints;
+        //X and y values to represent the current node to be checked with search x and y
+        int xCurrentValue;
+        int yCurrentValue;
+        // variables that will be used to identify the node given in the formal Parameter.
+        int xSearchValue = (int)searchNode.getX();
+        int ySearchValue = (int)searchNode.getY();
+        // for loop to search through all tiles
+        for(int i = 0; i<gameTiles.getTilesArray().size(); i++)
+        {
+            // current tile assigned based on loop and array
+            currentTile = gameTiles.getTile(i);
+            //All node points for current tile are assigned here
+            currentNodePoints = currentTile.getTilePoints();
+
+            // for loop to search through all grid points on specific tile in the array
+            for(int j = 0; j< 6; j++)
+            {
+                // new node assigned
+                currentNode = currentNodePoints.get(j);
+                //Current x and y values to be checked with search node x and y values are assigned upon
+                // a new node being checked.
+                xCurrentValue = (int)currentNode.getX();
+                yCurrentValue = (int)currentNode.getY();
+                // if the x and y point of a grid node on a tile match with the settlemetns point, where the tile and
+                // settlement intersect, then the tile is valid to give a resource to that player
+                // and will be added to the array list containing all the tiles
+                if(xCurrentValue == xSearchValue && yCurrentValue == ySearchValue)
+                {
+                    connectedTiles.add(currentTile);
+                }
+            }
+        }
+        // array of all connected tiles returned
+        return connectedTiles;
+    }
 
 }

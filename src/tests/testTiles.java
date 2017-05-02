@@ -1,6 +1,7 @@
 package tests;
 
 import boardClasses.BoardGrid;
+import boardClasses.GameBoard;
 import boardClasses.Tile;
 import boardClasses.Tiles;
 
@@ -19,8 +20,8 @@ public class testTiles {
         }
     }
 
-    public static void showTiles(Tiles myTiles, BoardGrid myGrid){
-        for(Tile thisTile: myTiles.getTilesArray()){
+    public static void showTiles(GameBoard board){
+        for(Tile thisTile: board.getTiles().getTilesArray()){
             System.out.print("Grid Reference: " + thisTile.getGridPointReference() + ", ");
             System.out.print("Resource Type: " + thisTile.getResource() + ", ");
             System.out.print("Circle Token: " + thisTile.getToken().getNumber() + " " + thisTile.getToken().getLetterOnToken()+ "\n");
