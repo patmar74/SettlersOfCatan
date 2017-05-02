@@ -95,7 +95,6 @@ public class GameBoard {
         indexOfRobber = tileIndex;
     }
 
-    //ToDo Add method to get an ArrayList af all tiles attached to a specific node
 
     /**
      * Checks if a settlement is within 2 edges to a specified point.

@@ -498,7 +498,6 @@ public class Player {
         devCards.remove(card);
     }
 
-    //ToDo Fix longest road method and uncomment
 //    // check specific for the longest road
 //    private boolean checkRoadConnected(GridNode target, ArrayList<Road> roads)
 //    {

@@ -63,17 +63,18 @@ public class PlayGame {
 	private void twoRoundsOfGameSetUp() {
 		// first round of game set up
 		for (int playerIndex = 0; playerIndex < playerList.size(); playerIndex++) {
-            // ToDo:request position
-			playerList.get(playerIndex).placeSettlement(board,3,0,true);
+			// ToDo:request position
+			playerList.get(playerIndex).placeSettlement(board, 3, 0, true);
 			// ToDo: request position
-			playerList.get(playerIndex).placeRoad(board,new Point(3,0),new Point(2,1));
+			playerList.get(playerIndex).placeRoad(board, new Point(3, 0), new Point(2, 1));
 		}
 		// second round of game set up, occurs in reverse order
 		for (int playerIndex = playerList.size(); playerIndex > 0; playerIndex--) {
-		    // ToDo: request position
-            playerList.get(playerIndex).placeSettlement(board,3,0,true);
-            // ToDo: request position
-            playerList.get(playerIndex).placeRoad(board,new Point(3,0),new Point(2,1));		}
+			// ToDo: request position
+			playerList.get(playerIndex).placeSettlement(board, 3, 0, true);
+			// ToDo: request position
+			playerList.get(playerIndex).placeRoad(board, new Point(3, 0), new Point(2, 1));
+		}
 
 	}// end twoRoundsOfGameSetUp method
 
@@ -106,9 +107,9 @@ public class PlayGame {
 
 	/**
 	 * Checks to see if any player has won the game
-	 * 
+	 *
 	 * @return - true if a player has accumulated 10 or more points (he/she won
-	 *         the game), false if all players have less than ten points
+	 * the game), false if all players have less than ten points
 	 */
 	private boolean playerHasWon() {
 		// loops through all of the players to see if one of them has 10 or more
@@ -126,9 +127,8 @@ public class PlayGame {
 	 * Runs through the three phases of a turn in settlers of Catan, rolling the
 	 * dice and distributing resources, making trades, and building or buying
 	 * cards
-	 * 
-	 * @param playerTakingTurn
-	 *            - the player taking his or her turn
+	 *
+	 * @param playerTakingTurn - the player taking his or her turn
 	 */
 	private void gameTurn(Player playerTakingTurn) {
 		rollDice(playerTakingTurn);
@@ -139,10 +139,9 @@ public class PlayGame {
 	/**
 	 * Rolls the dice and then distributes resources or completes the robber
 	 * actions if a 7 is rolled
-	 * 
-	 * @param playerTakingTurn
-	 *            - player who rolls the dice and, if a 7 is rolled, moves the
-	 *            robber
+	 *
+	 * @param playerTakingTurn - player who rolls the dice and, if a 7 is rolled, moves the
+	 *                         robber
 	 */
 	private void rollDice(Player playerTakingTurn) {
 		// calls the GUI that is used to roll the dice
@@ -160,8 +159,8 @@ public class PlayGame {
 		if (sumOfRoll == 7) {
 			// code that executes if the robber is rolled
 			Robber r = new Robber();
-			r.stealHalfCards(playerTakingTurn,banker);
-			r.moveRobber(board,playerTakingTurn);
+			r.stealHalfCards(playerTakingTurn, banker);
+			r.moveRobber(board, playerTakingTurn);
 		} else {
 			// happens for any other roll other than 7
 			distributeResources(sumOfRoll);
@@ -175,14 +174,13 @@ public class PlayGame {
 	 * resources per city.
 	 */
 	private void distributeResources(int sumOfRoll) {
-		banker.distributeResources(board,sumOfRoll);
+		banker.distributeResources(board, sumOfRoll);
 	}// end distributedResources method
 
 	/**
 	 * Players make Trades Between Players, at Harbors, or with the Banker
-	 * 
-	 * @param playerTakingTurn
-	 *            - the player making the trades
+	 *
+	 * @param playerTakingTurn - the player making the trades
 	 */
 	private void tradePhase(Player playerTakingTurn) {
 
@@ -191,56 +189,12 @@ public class PlayGame {
 	/**
 	 * build roads, build settlements, upgrade settlements to cities, or buy or
 	 * play development cards (knights blocks roads?)
-	 * 
-	 * @param playerTakingTurn
-	 *            - the player building or purchasing cards
+	 *
+	 * @param playerTakingTurn - the player building or purchasing cards
 	 */
 	private void constructionPhase(Player playerTakingTurn) {
 
 	}// end constructionPhase method
 
-    //ToDo change this so that it works
-    /**
-     * Joey's method to check which player has the longest road.
-     * @param currentPlayer
-     * @return
-     */
-//    public Player checkLongestRoad(Player currentPlayer)
-//    {
-//        //Length of roads in array 1
-//        int valueToCompare1 = currentPlayer.getRoad1Length();
-//        // length of roads in array 2
-//        int valueToCompare2 = currentPlayer.getRoad2Length();
-//        // check if players roads are connected
-//        if(currentPlayer.isJoint())
-//        {
-//            int newValueToCompare = valueToCompare1+valueToCompare2;
-//            // check if joint roads are connected
-//            if(newValueToCompare > longestRoad)
-//            {
-//                longestRoad = newValueToCompare;
-//                longestRoadPlayer = currentPlayer;
-//            }
-//            //check if array 1 is longest
-//        }
-//        if(valueToCompare1 > longestRoad)
-//        {
-//            longestRoad = valueToCompare1;
-//            longestRoadPlayer = currentPlayer;
-//        }
-//        // check if road 2 is longest
-//        if(valueToCompare2 > longestRoad)
-//        {
-//            longestRoad = valueToCompare2;
-//            longestRoadPlayer = currentPlayer;
-//        }
-//        // if current longest road is greater than 5 add 2 points to player
-//        //****NEEDS TO SUBTRACT FROM OLD PLAYER IF NEW LONGEST ROAD***** ADD
-//        if(longestRoad > 5)
-//        {
-//            int currentPoints = currentPlayer.getPoints();
-//            currentPlayer.setPoints(currentPoints + 2);
-//        }
-//
-//    }
-}// end PlayGame class
+}
+

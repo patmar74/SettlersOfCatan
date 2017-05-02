@@ -91,6 +91,5 @@ public class testGameBoard {
         }
         showPlayerSettlements(myPlayer);
         System.out.println();
-
     }
 }
