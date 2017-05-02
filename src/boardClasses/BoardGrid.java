@@ -36,9 +36,9 @@ public class BoardGrid {
      *
      */
     public GridNode getNode(int x, int y){
-        if(y<0 || y >= maxY){
+        if(y<0 || y > maxY){
             return null;
-        }else if(x<0 || x >= maxX ){
+        }else if(x<0 || x > maxX ){
             return null;
         }
         return grid[y][x];

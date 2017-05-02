@@ -76,7 +76,7 @@ public class testRoad {
             Point roadEnd = road.getEndNode().getLocation();
             System.out.print("Road owned by: " + road.getOwner().getName());
             System.out.print(" starts at (" + roadStart.x + "," + roadStart.y + ")");
-            System.out.print(" ends at (" + roadEnd.x + "," + roadEnd.y + ")\n");
+            System.out.print(" ends at (" + roadEnd.x + "," + roadEnd.y + ")");
         }
         showRoads(p);
         System.out.println();

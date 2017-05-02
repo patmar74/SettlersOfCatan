@@ -41,6 +41,23 @@ public class GridNode extends Point{
     public GridNode(int x,int y){
         super(x,y);
     }
+
+    /**
+     * Constructor that copies a GridNode to a new reference
+     * @param nodeBeingCopied
+     */
+    public GridNode(GridNode nodeBeingCopied){
+       mySettlement = nodeBeingCopied.mySettlement;
+       myCity = nodeBeingCopied.myCity;
+       myHarbor = nodeBeingCopied.myHarbor;
+       northRoad = nodeBeingCopied.northRoad;
+       southWestRoad = nodeBeingCopied.southWestRoad;
+       southEastRoad = nodeBeingCopied.southEastRoad;
+       southRoad = nodeBeingCopied.southRoad;
+       northWestRoad = nodeBeingCopied.northWestRoad;
+       northEastRoad = nodeBeingCopied.northEastRoad;
+       super.setLocation(nodeBeingCopied.getLocation());
+    }
     /**
      * Sets a Settlement on the GridNode
      * @param playerSettlement Settlement The settlement that the player wants to place on the point.
@@ -170,7 +187,26 @@ public class GridNode extends Point{
         }
         return roadsAttached;
     }
-
+    /**
+     * Gets an ArrayList of all roads attached to this GridNode that are not owned by the Player
+     * @return ArrayList<Road> All roads attached to the gridNode. If there are no roads attached,
+     * this will return an empty ArrayList.
+     */
+    public ArrayList<Road> getAllNonPlayerRoads(Player myPlayer){
+        ArrayList roadsAttached = new ArrayList();
+        // for each direction in the DirectionOptions Array, if the road at that direction exists then add it to the
+        // roadsAttached ArrayList
+        for(RoadDirection dir : DirectionDecider.getDirectionOptions(this.getLocation())){
+            Road rd = getRoadAt(dir);
+            if(rd instanceof Road){
+                // if the owner is not the player add the road to the ArrayList
+                if(rd.getOwner() != myPlayer) {
+                    roadsAttached.add(rd);
+                }
+            }
+        }
+        return roadsAttached;
+    }
     /**
      * Sets the Harbor that is attached to this gridNode
      * @param myHarbor
@@ -187,6 +223,26 @@ public class GridNode extends Point{
      */
     public Harbor getHarbor(){
         return myHarbor;
+    }
+
+    public ArrayList<Road> getNextPlayerRoads(Player myPlayer, ArrayList<Road> allRoadsChecked, ArrayList<Road> roadsTraversed){
+        ArrayList roadsAttached = new ArrayList();
+        // for each direction in the DirectionOptions Array, if the road at that direction exists then add it to the
+        // roadsAttached ArrayList
+        for(RoadDirection dir : DirectionDecider.getDirectionOptions(this.getLocation())){
+            Road rd = getRoadAt(dir);
+            if(rd instanceof Road){
+                // If owner is myPlayer then check if it is the lastRoadTraverse
+                if(rd.getOwner() == myPlayer){
+                    // If it is not in the arrayList of already traversed roads  and not in the arrayList of all roads checked
+                    // then add it to the roadsAttached ArrayList
+                    if(!allRoadsChecked.contains(rd) && !roadsTraversed.contains(rd)){
+                        roadsAttached.add(rd);
+                    }
+                }
+            }
+        }
+        return roadsAttached;
     }
 
 

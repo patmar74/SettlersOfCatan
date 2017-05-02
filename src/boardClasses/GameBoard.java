@@ -1,8 +1,6 @@
 package boardClasses;
 
-import players.DirectionDecider;
-import players.RoadDirection;
-import players.Settlement;
+import players.*;
 import resourceClasses.ResourceType;
 
 import java.awt.*;
@@ -167,6 +165,205 @@ public class GameBoard {
      */
     private void assignHarbor(Harbor myHarbor, int x, int y){
         getGridNode(x,y).setHarbor(myHarbor);
+    }
+
+    /**
+     * Calculates the length of the player's longest continuous road.
+     * @param myPlayer The player being checked
+     */
+    public void findAndSetPlayerRoadLength(Player myPlayer){
+        int roadLength=0;
+        GridNode firstNode = myPlayer.getStartingNode(1);
+        ArrayList<Road> longestRoadFromPoint1 = new ArrayList<>();
+        longestRoadFromPoint1 = getLongestRoadAtStartingPoint(myPlayer,firstNode,longestRoadFromPoint1);
+
+        ArrayList<Road> longestRoadFromPoint2 = new ArrayList<>();
+        GridNode secondNode = myPlayer.getStartingNode(2);
+        longestRoadFromPoint2 = getLongestRoadAtStartingPoint(myPlayer,secondNode,longestRoadFromPoint1);
+
+        if(longestRoadFromPoint1.size()>= longestRoadFromPoint2.size()){
+            roadLength = longestRoadFromPoint1.size();
+        }else{
+            roadLength = longestRoadFromPoint2.size();
+        }
+        myPlayer.setLongestRoadLength(roadLength);
+    }
+
+    /**
+     * Checks if any of an ArrayList of items is in Another ArrayList
+     * @param items The items being checked for
+     * @param list The list being checked to contain items.
+     * @return True if any items are in the list
+     */
+    private boolean hasItemsInList(ArrayList<Road> items, ArrayList<Road> list){
+        int i = 0;
+        boolean exists = false;
+
+        while(!exists && i<items.size()){
+            exists = list.contains(items.get(i));
+            i++;
+        }
+        return exists;
+    }
+
+    /**
+     * Gets the ArrayList of roads that make up the longest road from the firstNode.
+     * @param myPlayer
+     * @param firstNode
+     * @param longestRoadFromOtherPoint The ArrayList of roads that are the Longest road from the other point.
+     *                                  This is to check if there are any intersecting paths between the two points
+     * @return The ArrayList of roads that make up the longest road form the startingNode selected
+     */
+    private ArrayList<Road> getLongestRoadAtStartingPoint(Player myPlayer, GridNode firstNode, ArrayList<Road> longestRoadFromOtherPoint){
+
+        ArrayList<Road> allRoadsChecked = new ArrayList<>();
+        ArrayList<Road> firstPathOptions = firstNode.getNextPlayerRoads(myPlayer,allRoadsChecked,new ArrayList<Road>());
+        if (!hasItemsInList(firstPathOptions,longestRoadFromOtherPoint)) {
+            ArrayList<Road> path1 = new ArrayList<>();
+            ArrayList<Road> path2 = new ArrayList<>();
+            ArrayList<Road> path3 = new ArrayList<>();
+            ArrayList<Integer> pathSizes= new ArrayList<>();
+            pathSizes.add(0);
+            pathSizes.add(0);
+            pathSizes.add(0);
+            Road firstRoad;
+            if(firstPathOptions.size()>=1){
+                firstRoad=firstPathOptions.get(0);
+                path1.add(firstRoad);
+                path1 = getBranch(myPlayer,path1,firstNode,allRoadsChecked);
+                addToAllRoadsChecked(allRoadsChecked,path1);
+                pathSizes.set(0,path1.size());
+            }
+            if(firstPathOptions.size()>=2) {
+                firstRoad = firstPathOptions.get(1);
+                path2.add(firstRoad);
+                path2 = getBranch(myPlayer, path2, firstNode,allRoadsChecked);
+                addToAllRoadsChecked(allRoadsChecked,path2);
+                pathSizes.set(1,path2.size());
+            }
+            if(firstPathOptions.size()==3){
+                firstRoad = firstPathOptions.get(2);
+                path3.add(firstRoad);
+                path3 = getBranch(myPlayer,path3, firstNode, allRoadsChecked);
+                pathSizes.set(2,path3.size());
+            }
+            ArrayList<ArrayList<Road>> allBranches = new ArrayList<>();
+            allBranches.add(path1);
+            allBranches.add(path2);
+            allBranches.add(path3);
+            int[] indexesOfHighestTwo = getTopTwoIndex(pathSizes);
+            ArrayList<Road> longestRoadAtStartingPoint = new ArrayList<>();
+            addToAllRoadsChecked(longestRoadAtStartingPoint, allBranches.get(indexesOfHighestTwo[0]));
+            addToAllRoadsChecked(longestRoadAtStartingPoint, allBranches.get(indexesOfHighestTwo[1]));
+            return longestRoadAtStartingPoint;
+        }else{
+            return new ArrayList<>();
+        }
+
+    }
+
+    /**
+     * Adds all items in this Path to allRoadsChecked
+     * @param allRoadsChecked
+     * @param thisPath
+     */
+    private void addToAllRoadsChecked(ArrayList<Road> allRoadsChecked, ArrayList<Road> thisPath){
+        for(Road rd:thisPath){
+            allRoadsChecked.add(rd);
+        }
+
+    }
+
+    private int[] getTopTwoIndex(ArrayList<Integer> pathSizes){
+        int[] indexes = new int[2];
+        ArrayList<Integer> array = new ArrayList<>(pathSizes);
+        int indexOfHighest=0;
+        int indexOfNextHighest=0;
+        int maximum=0;
+        for(int i = 0; i<array.size();i++){
+            if(array.get(i) >= maximum){
+                maximum = array.get(0);
+                indexOfHighest = i;
+            }
+        }
+        // set value of highest index to -1 to ensure it does not get the second highest as well
+        array.set(indexOfHighest,-1);
+        maximum = 0;
+
+        for(int i = 0; i<array.size();i++){
+            if(array.get(i) >= maximum){
+                maximum = array.get(i);
+                indexOfNextHighest = i;
+            }
+        }
+        indexes[0] = indexOfHighest;
+        indexes[1] = indexOfNextHighest;
+        return indexes;
+
+    }
+
+    /**
+     * Recursively called function that evaluates all branches and determines which is the longest, returns the longest branch
+     * @param myPlayer The player being checked
+     * @param roadsTraversed The roads in the current major branch from the root node that have been checked already
+     * @param currentNode The GridNode being checked for roads
+     * @param allRoadsChecked All roads that are from a finalized major branch. This is so that no roads are counted twice
+     * @return The ArrayList of Roads that make up the branch so far
+     */
+    private ArrayList<Road> getBranch(Player myPlayer,ArrayList<Road> roadsTraversed, GridNode currentNode, ArrayList<Road> allRoadsChecked){
+
+        int lastIndex = roadsTraversed.size()-1;
+        // Get the last road that was traversed.
+        Road lastRoad  = roadsTraversed.get(lastIndex);
+        GridNode currentNodeCopy = new GridNode(currentNode);
+        // Get the next node to check
+        GridNode nextNodeToCheck;
+        // it is possible that the roads from the starting points might intersect with each other, therefore the
+        // startNode for a road from one starting Point could be the endNode for a road from the other starting point
+        if(currentNodeCopy.getLocation().equals(lastRoad.getStartNode().getLocation())){
+            nextNodeToCheck = lastRoad.getEndNode();
+        }else{
+            nextNodeToCheck = lastRoad.getStartNode();
+        }
+
+        if(nextNodeToCheck.getSettlement() instanceof Settlement){
+            // If there is a settlement at the next point and it is not the Player's then the branch has ended.
+            if(nextNodeToCheck.getSettlement().getPlayer() != myPlayer){
+                return roadsTraversed;
+            }
+            // same check except for cities
+        }else if(nextNodeToCheck.getCity() instanceof City){
+            if(nextNodeToCheck.getCity().getPlayer() != myPlayer){
+                return roadsTraversed;
+            }
+        }
+        ArrayList<Road> nextRoadOptions = nextNodeToCheck.getNextPlayerRoads(myPlayer,allRoadsChecked ,roadsTraversed);
+        Road nextRoad;
+        // If there are no more road options then the branch has ended
+        if(nextRoadOptions.size() == 0){
+            return roadsTraversed;
+        }else{
+            // Each gridNode can have at most 2 other branches
+            ArrayList<Road> pathOption1 = new ArrayList<>(roadsTraversed);
+            ArrayList<Road> pathOption2 = new ArrayList<>(roadsTraversed);
+            if(nextRoadOptions.size() >= 1){
+                nextRoad = nextRoadOptions.get(0);
+                pathOption1.add(nextRoad);
+                pathOption1 = getBranch(myPlayer,pathOption1,nextNodeToCheck,allRoadsChecked);
+            }
+            if(nextRoadOptions.size() == 2){
+                nextRoad = nextRoadOptions.get(1);
+                pathOption2.add(nextRoad);
+                pathOption2 = getBranch(myPlayer,pathOption2,nextNodeToCheck,allRoadsChecked);
+            }
+
+            if(pathOption1.size()>pathOption2.size()){
+                roadsTraversed = pathOption1;
+            }else{
+                roadsTraversed = pathOption2;
+            }
+        }
+        return roadsTraversed;
     }
 
 

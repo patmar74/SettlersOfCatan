@@ -70,7 +70,7 @@ public class DirectionDecider {
         RoadDirection reflection=null;
         switch (dirFromStart){
             case NORTH:{
-                reflection = RoadDirection.NORTH;
+                reflection = RoadDirection.SOUTH;
                 break;
             }
             case SOUTH_EAST:{

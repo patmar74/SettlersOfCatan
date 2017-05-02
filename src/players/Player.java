@@ -24,16 +24,30 @@ public class Player {
 	private int points;
 	private String name;
 	private ArrayList<Settlement> settlements = new ArrayList<>();
+	// ArrayList of all cities the player has not placed
 	private ArrayList<City> cities = new ArrayList<>();
+	// ArrayList of all roads the player has not placed
 	private ArrayList<Road> roads = new ArrayList<>();
+	// ArrayList of all devCards the player has right now
 	private ArrayList<DevCard> devCards = new ArrayList<>();
+	// ArrayList of all harbors the player has access to
 	private ArrayList<Harbor> harbors = new ArrayList<>();
-
+	// ArrayList of all knights the player has user
+	private ArrayList<DevCard> knights = new ArrayList<>();
 	// Arraylist of resource cards player has in their hand
 	private ArrayList<ResourceType> hand = new ArrayList<>();
 
+	private ArrayList<ArrayList<Road>> roadsPlaced = new ArrayList<>();
+	// Arraylist for the GridNodes that the player chose to place settlements to start the game
+	private ArrayList<GridNode> startingNodes = new ArrayList<>();
+    private int longestRoadLength = 0;
+
+    public int getLongestRoadLength() {
+        return longestRoadLength;
+    }
+
     /**
-     * Constructor gives a player name, player color, and initializes 4 player settlements, and 15 roads
+     * Constructor gives a player name, player color, and initializes 5 player settlements,4 cities, and 15 roads
      * @param name The name of the player
      * @param playerColor The Color to be associated with the Player
      */
@@ -86,6 +100,21 @@ public class Player {
         return copy;
     }
 
+    /**
+     * Adds a knight to the players knights ArrayList
+     * @param knightCard
+     */
+    public void addKnight(DevCard knightCard){
+        knights.add(knightCard);
+    }
+
+    /**
+     * Gets how many knights the player has used
+     * @return
+     */
+    public int getKnightsQty(){
+        return knights.size();
+    }
     /**
      * Makes a "hand" of all the resources that the player wants to offer as a trade
      * @param qtyWheat Quantity of wheat being offered
@@ -239,6 +268,9 @@ public class Player {
                     if(!checkPlayerRoadConnected(targetNode)){
                         placementSuccessful = false;
                     }
+                    // If settlement is being placed during setup then add that GridNode to Starting Nodes.
+                }else if(isSettingUp){
+                    startingNodes.add(targetNode);
                 }
             } else { // targetNode does not exist, placement fails.
                 placementSuccessful = false;
@@ -259,6 +291,15 @@ public class Player {
             if(harborOnTarget instanceof Harbor){
                 harbors.add(harborOnTarget);
             }
+            ArrayList<Road> allNonPlayerRoads = targetNode.getAllNonPlayerRoads(this);
+            // If AllNonPlayer roads has a size of 2 then it is possible the settlement could break a player's longest road
+            if(allNonPlayerRoads.size() == 2){
+                // If both roads have the same owner, then run findAndSetPlayerRoadLength() because their road has been split.
+                if(allNonPlayerRoads.get(0).getOwner() == allNonPlayerRoads.get(1).getOwner()){
+                    board.findAndSetPlayerRoadLength(allNonPlayerRoads.get(0).getOwner());
+                }
+
+            }
 
         }
         return placementSuccessful;
@@ -275,11 +316,14 @@ public class Player {
     public boolean placeRoad(GameBoard board, Point start, Point end){
         GridNode startGridNode = board.getGridNode(start);
         GridNode endGridNode = board.getGridNode(end);
-        boolean placementSuccessful = checkRoadPlacementPossible(board,startGridNode,endGridNode);
-
-        RoadDirection dirFromStart = DirectionDecider.getRoadDirection(start,end);
+        boolean placementSuccessful = false;
+        if(roads.size()>0) {
+            placementSuccessful = checkRoadPlacementPossible(board, startGridNode, endGridNode);
+        }
+        RoadDirection dirFromStart;
         // If placement is allowed then place the road
         if (placementSuccessful){
+            dirFromStart = DirectionDecider.getRoadDirection(start,end);
             // Remove a road from the player's roads
             Road rd = roads.remove(0);
             // Set road on GridNode on the Road branch, dirFromStart
@@ -289,9 +333,10 @@ public class Player {
 
             endGridNode.setRoadAt(rd,DirectionDecider.getReflection(dirFromStart));
             rd.setEndNode(endGridNode);
-            // checks for longest road and modifies the array lengths accordingly
-            //ToDo check how this actually works and uncomment
-            //checkLongestRoad(board,start,end);
+            //check if player has used 5 or more roads, and if so runs findAndSetPlayerRoadLength
+            if(15 - roads.size() >= 5 ){
+                board.findAndSetPlayerRoadLength(this);
+            }
 
         }
         return placementSuccessful;
@@ -365,7 +410,7 @@ public class Player {
         boolean playerRoadConnected = false;
         RoadDirection[] directions = DirectionDecider.getDirectionOptions(start.getLocation()); // Gets array of directions for that gridNode
         int i = 0;
-                //Loop through until all directions are checked, but stop if a road is connected
+        //Loop through until all directions are checked, but stop if a road is connected
         while(i< directions.length && !playerRoadConnected){
             RoadDirection dir = directions[i];
             // skip iteration if in same direction as to be built
@@ -572,4 +617,21 @@ public class Player {
 //    }
 //
 
+    /**
+     * Get the desired starting GridNode, either the first settlement's GridNode or the second.
+     * @param turnPlaced Indication of the first or the second settlement that was placed
+     *                   valid options are 1 or 2.
+     * @return The GridNode that the player selected.
+     * @throws IllegalArgumentException If turnPlaced is NOT 1 or 2
+     */
+    public GridNode getStartingNode(int turnPlaced) throws IllegalArgumentException{
+        if((turnPlaced<1) || (turnPlaced>2) ){
+            throw new IllegalArgumentException("TurnPlaced was not valid");
+        }
+        return startingNodes.get(turnPlaced-1);
+    }
+
+    public void setLongestRoadLength(int longestRoadLength){
+        this.longestRoadLength = longestRoadLength;
+    }
 }

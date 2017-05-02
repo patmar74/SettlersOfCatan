@@ -310,6 +310,7 @@ public class Banker {
 		DevCard card = devCardDeck.removeCardFromDeck();
 		if(card instanceof DevCard){
             player.addDevCard(card);
+            card.setPlayer(player);
             successful = true;
         }
         return successful;

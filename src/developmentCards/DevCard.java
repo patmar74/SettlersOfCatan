@@ -1,9 +1,11 @@
 package developmentCards;
 
+import boardClasses.GameBoard;
 import players.Player;
 import resourceClasses.Banker;
 import resourceClasses.ResourceType;
 
+import java.awt.*;
 import java.util.ArrayList;
 
 /**
@@ -12,7 +14,7 @@ import java.util.ArrayList;
  *
  */
 public class DevCard {
-	// Player myPlayer     Player that currently holds the development card
+	Player myPlayer;     // Player that currently holds the development card
 	boolean wasDrawnThisTurn; // Flag if the card was drawn this turn
 	DevCardType type;
 
@@ -25,36 +27,36 @@ public class DevCard {
 		wasDrawnThisTurn = false;
 	}
 
+	public void setPlayer(Player myPlayer){
+	    this.myPlayer = myPlayer;
+    }
+
 	/**
-	 * Change the state of drawnThisTurn flag
+	 * Change the Flag for if the DevCard was drawn this turn to true
+     * This will be called at the start of the player's turn
 	 */
-	public void toggleDrawnThisTurn(){
-		if(wasDrawnThisTurn){
-			wasDrawnThisTurn = false;
-		}else{
-			wasDrawnThisTurn = true;
-		}
-
+	public void setDrawnThisTurn(){
+		wasDrawnThisTurn = false;
 	}
-// ToDo place roads action
-    /**
-     * Place 2 roads on the board
-     */
-//	public void doAction(GameBoard myBoard, location1, location2){
-//	    myBoard.buildRoad(location1);
-//      myBoard.buildRoad(location2);
-//  }
 
     /**
-     *
-     * Overloaded method Does action for the Knight card
-     * Moves the robber to a new tile
-     * @param myRobber
+     * Overloaded method Does action for the Road Building card
+     * Place 2 roads on the board, this will need to have a prompt for the user to select the points.
      */
-    //ToDo move robber action
-//	public doAction(GameBoard myBoard, newLocation){
-//	    myBoard.moveRobber(newLocation);
-//   }
+    public void doAction(GameBoard board, Point road1Start, Point road1End, Point road2Start, Point road2End){
+	   myPlayer.placeRoad(board,road1Start,road2End);
+	   myPlayer.placeRoad(board,road2Start,road2End);
+    }
+
+    /**
+     * Overloaded method Does action for the Knight card
+     * Moves the robber to a new tile, and adds the Knight card to the Player's knights ArrayList
+     * @param
+     */
+	public void doAction(GameBoard myBoard, int newLocation){
+	    myBoard.moveRobber(newLocation);
+        myPlayer.addKnight(this);
+   }
 
     /**
      * Overloaded do action method for the Year of Plenty Dev card
