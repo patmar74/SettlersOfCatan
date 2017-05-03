@@ -159,7 +159,7 @@ public class PlayGame {
 		if (sumOfRoll == 7) {
 			// code that executes if the robber is rolled
 			Robber r = new Robber();
-			r.stealHalfCards(playerTakingTurn, banker);
+			r.stealHalfCards(playerList, banker);
 			r.moveRobber(board, playerTakingTurn);
 		} else {
 			// happens for any other roll other than 7

@@ -69,11 +69,16 @@ public class Tiles {
     private void shuffleTiles(){
         ArrayList<Tile> shuffledTiles = new ArrayList<>();
         int i = 0; // holds index for while loop
+        int indexOfShuffledTile = 0;
         Random rdm = new Random();
         // continue adding tiles to shuffled tiles until there are no more tiles left to shuffle.
         while(gameTiles.size()>0){
-            i = rdm.nextInt(gameTiles.size()); //gets random integer between 0 and the size of the arraylist (non-inclusive)
-            shuffledTiles.add(gameTiles.remove(i));// removes a tile at index i and adds the tile to the shuffledTiles ArrayList
+            //gets random integer between 0 and the size of the arraylist (non-inclusive)
+            i = rdm.nextInt(gameTiles.size());
+            Tile t = gameTiles.remove(i);
+            t.setIndex(indexOfShuffledTile);
+            shuffledTiles.add(t);// removes a tile at index i and adds the tile to the shuffledTiles ArrayList
+            indexOfShuffledTile++;
         }
         gameTiles = shuffledTiles;
     }

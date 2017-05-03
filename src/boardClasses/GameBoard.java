@@ -14,6 +14,11 @@ import java.util.ArrayList;
 public class GameBoard {
     private BoardGrid grid;
     private Tiles gameTiles;
+
+    public int getIndexOfRobber() {
+        return indexOfRobber;
+    }
+
     private int indexOfRobber; // The index of the robber's current position.
 
     /**

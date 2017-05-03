@@ -633,4 +633,17 @@ public class Player {
     public void setLongestRoadLength(int longestRoadLength){
         this.longestRoadLength = longestRoadLength;
     }
+
+    @Override
+    public String toString() {
+        return name;
+    }
+
+    /**
+     * Returns a reference to the Player's hand
+     * @return A reference to the Player's hand of resource cards
+     */
+    public ArrayList<ResourceType> getResources(){
+        return hand;
+    }
 }

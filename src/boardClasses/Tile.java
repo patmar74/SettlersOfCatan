@@ -1,5 +1,7 @@
 package boardClasses;
 
+import players.Player;
+import players.Settlement;
 import resourceClasses.ResourceType;
 
 import java.awt.*;
@@ -24,6 +26,7 @@ public class Tile {
 	private Point gridPointReference;
 	// Flag for if the robber is on the tile.
 	private boolean hasRobber;
+	private int index;
 
     /**
      * Constructor, creates a tile of ResourceType and sets hasRobber to false
@@ -62,6 +65,14 @@ public class Tile {
 		this.gridPointReference = gridPointReference;
 	}
 
+    public int getIndex() {
+        return index;
+    }
+
+    public void setIndex(int index) {
+        this.index = index;
+    }
+
     /**
      * Sets the appropriate GridNodes to the right position on the hex tile.
      * @param grid BoardGrid
@@ -91,5 +102,28 @@ public class Tile {
      */
     public boolean getHasRobber(){
 	    return hasRobber;
+    }
+
+	@Override
+	public String toString() {
+		return "Tile:"+ getToken().getLetterOnToken() + "; Roll: " + getToken().getNumber() + "; Resource: " + resource;
+	}
+
+	public ArrayList<Player> getOtherPlayersWithSettlements(Player currentPlayer){
+        ArrayList<Player> otherPlayersWithSettlements = new ArrayList<>();
+        for(GridNode node:tilePoints){
+            Player otherPlayer=null;
+            if(node.getSettlement() instanceof Settlement){
+                otherPlayer = node.getSettlement().getPlayer();
+            }else if(node.getCity() instanceof Settlement){
+                otherPlayer = node.getCity().getPlayer();
+            }
+            if(otherPlayer instanceof Player){
+                if(otherPlayer != currentPlayer) {
+                    otherPlayersWithSettlements.add(otherPlayer);
+                }
+            }
+        }
+        return otherPlayersWithSettlements;
     }
 }
