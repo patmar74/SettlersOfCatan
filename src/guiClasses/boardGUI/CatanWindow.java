@@ -4,12 +4,9 @@
  */
 package guiClasses.boardGUI;
 
-import boardClasses.GameBoard;
-import boardClasses.Tile;
-import resourceClasses.ResourceType;
-
 import java.awt.Color;
 import java.awt.EventQueue;
+import java.awt.Font;
 import java.awt.Image;
 import java.awt.Point;
 import java.util.ArrayList;
@@ -20,7 +17,10 @@ import javax.swing.JFrame;
 import javax.swing.JLabel;
 import javax.swing.JPanel;
 
-
+import boardClasses.GameBoard;
+import boardClasses.GridNode;
+import boardClasses.Tile;
+import resourceClasses.ResourceType;
 
 /*
  * The Robber needs to be painted, and Tokens need to be painted to start
@@ -46,6 +46,9 @@ public class CatanWindow {
 	final int width = SCALE * 10;
 	// the width of the JPanel panel
 	final int height = SCALE * 8;
+	// adds a cushion around the game board for readability
+	final int BUFFER = SCALE / 2;
+	private int adjustRowHeight;
 	private JPanel panel;
 	private JFrame frame;
 
@@ -75,8 +78,10 @@ public class CatanWindow {
 		// draws a boarder around the panel so I can see where it lies on the
 		// frame
 		panel.setBorder(BorderFactory.createLineBorder(Color.black));
-		// sets the dimensions of the panel
-		panel.setBounds(0, 0, width, height);
+		// sets the dimensions of the panel, the buffer will be on the top,
+		// bottom, left and right, so 2 times the size of the BUFFER is added to
+		// each dimension
+		panel.setBounds(0, 0, width + BUFFER * 2, height + BUFFER * 2);
 		// adds the panel to the JFrame
 		frame.getContentPane().add(panel);
 		panel.setLayout(null);
@@ -115,17 +120,82 @@ public class CatanWindow {
 			// each row starts 3/4 of the way down the height of the previous
 			// one. This shift is accounted four by moving the y value of each
 			// row up 1/4 of the tile height (SCALE).
-			int adjustRowHeight = SCALE / 4 * y;
+			adjustRowHeight = SCALE / 4 * y;
 			// sets the location and dimension of the label holding the Tile's
 			// image icon
-			lblTileImage.setBounds(x * SCALE, y * SCALE - adjustRowHeight, SCALE * 2, SCALE * 2);
+			lblTileImage.setBounds(x * SCALE + BUFFER, y * SCALE - adjustRowHeight + BUFFER, SCALE * 2, SCALE * 2);
 			// adds the label to the panel
 			panel.add(lblTileImage);
 		}
+		// adds the labels showing where the harbors are
+		addHarborImages(gameBoard);
+
 		// once all tiles have been visually represented, the frame is set to
 		// visible
 		frame.setVisible(true);
 	}// end initialize method
+
+	/**
+	 * Displays text labels for all of the Harbors. The labels are displayed on
+	 * top of the GridNode where the harbor is located and they contain the
+	 * ResourceType and trade ratio of the harbor
+	 * 
+	 * @param gameBoard
+	 *            - the game board background setup that the panel is creating a
+	 *            visual representation for
+	 */
+	private void addHarborImages(GameBoard gameBoard) {
+		// creates a list of the grideNodes with harbors from the gameBoard
+		HarborGridNodes harborNodes = new HarborGridNodes(gameBoard);
+		ArrayList<GridNode> harborNodeList = harborNodes.getGridNodes();
+
+		String harborText;
+		// loops through the list of GridNodes with harbors
+		for (int indexOfNode = 0; indexOfNode < harborNodeList.size(); indexOfNode++) {
+			// sets the Point location of the GrideNode
+			Point harborLocation = harborNodeList.get(indexOfNode).getLocation();
+			// sets the resource that can be traded at the harbor
+			ResourceType harborResource = harborNodeList.get(indexOfNode).getHarbor().getTradeType();
+			// if the harbor has no set resource, it is 3:1
+			if (harborResource.equals(ResourceType.DESERT)) {
+				harborText = "? 3:1";
+			}
+			// if the harbor has a set trade resource, it is 2:1
+			else {
+				harborText = harborResource.toString().substring(0, 2) + " 2:1";
+
+			}
+			// sets the x and y coordinates of the harborLocation
+			int x = (int) harborLocation.getX();
+			int y = (int) harborLocation.getY();
+			// adjusts the row height to accommodate the fact that the Tiles are
+			// layered on top of one another
+			adjustRowHeight = SCALE / 4 * y;
+			if (y % 2 == 1) {
+				adjustRowHeight += SCALE / 4;
+			}
+			// creates a new label holding the text description of the harbor
+			JLabel harborLabel = new JLabel(harborText);
+			// sets the background and foreground colors
+			harborLabel.setForeground(Color.white);
+			harborLabel.setBackground(Color.BLACK);
+			// makes the label opaque so the background color can be changed
+			harborLabel.setOpaque(true);
+			// set the font type, style, and size to be used
+			harborLabel.setFont(new Font(Font.SERIF, Font.PLAIN, 10));
+			// sets the size as the minimum needed to display the text
+			harborLabel.setSize(harborLabel.getPreferredSize());
+			// centers the label on the harborLocation Point
+			int widthAdjustment = (int) (harborLabel.getPreferredSize().getWidth() / 2);
+			int heightAdjustment = (int) (harborLabel.getPreferredSize().getHeight() / 2);
+			// sets the display location of the label
+			harborLabel.setLocation(x * SCALE + BUFFER - widthAdjustment,
+					y * SCALE - adjustRowHeight + BUFFER - heightAdjustment);
+			// adds the label to the panel on the top layer
+			panel.add(harborLabel, 0);
+		}
+
+	}// end addHarborImages method
 
 	/**
 	 * Inner Main used for testing
