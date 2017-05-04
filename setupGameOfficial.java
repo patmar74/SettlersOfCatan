@@ -50,7 +50,6 @@ public class setupGameOfficial
 		// assignment of player names
 		if (numPlayers == 2)
 		{
-			String play1Name;
 			player1.setName(JOptionPane.showInputDialog(null,"Enter player 1 name"));
 			player2.setName(JOptionPane.showInputDialog(null,"Enter player 2 name"));
 			playerPickColor player1ColorSelectionFrame = new playerPickColor();
