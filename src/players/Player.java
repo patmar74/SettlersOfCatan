@@ -213,8 +213,8 @@ public class Player {
 	}
     public ArrayList<City> getCities() { return cities;}
 
-	public String getPlayerColor() {
-		return playerColor.toString();
+	public Color getPlayerColor() {
+		return playerColor;
 	}
 
     // Return's the player's current points.

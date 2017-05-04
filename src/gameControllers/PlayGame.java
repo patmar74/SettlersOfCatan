@@ -196,5 +196,12 @@ public class PlayGame {
 
 	}// end constructionPhase method
 
+    public ArrayList<Player> getPlayerList() {
+        return playerList;
+    }
+
+    public Banker getBanker() {
+        return banker;
+    }
 }
 
