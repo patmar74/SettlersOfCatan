@@ -646,4 +646,19 @@ public class Player {
     public ArrayList<ResourceType> getResources(){
         return hand;
     }
+
+    /**
+     * Return number of cards in a player's hand that match the resource type
+     * @param type
+     * @return The number of resources of a specific type that the player said
+     */
+    public int countResources(ResourceType type){
+        int total = 0;
+        for (ResourceType card: hand){
+            if (card.equals(type)){
+                total++;
+            }
+        }
+        return total;
+    }
 }

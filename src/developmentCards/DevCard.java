@@ -80,7 +80,7 @@ public class DevCard {
         int totalCardsGained = 0; // useful only for Monopoly card;
         for (Player myPlayer:players){
             if (myPlayer != player) { // if myPlayer has same address as player then skip it
-                int cardsLost = countResources(myPlayer,resourceRequested);
+                int cardsLost = player.countResources(resourceRequested);
                 totalCardsGained += cardsLost;
                 for(int i=0;i<cardsLost; i++){
                     myPlayer.removeResource(resourceRequested);
@@ -93,22 +93,7 @@ public class DevCard {
         }
     }
 
-    /**
-     * Return number of cards in a player's hand that match the resource type
-     * @param player
-     * @param type
-     * @return
-     */
-    private int countResources(Player player, ResourceType type){
-	    int total = 0;
-	    ArrayList<ResourceType> hand = player.getHand();
-	    for (ResourceType card: hand){
-	        if (card.equals(type)){
-	            total++;
-            }
-        }
-        return total;
-    }
+
 
 	
 }
