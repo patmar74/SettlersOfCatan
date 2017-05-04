@@ -6,6 +6,7 @@ import java.util.ArrayList;
 import boardClasses.GameBoard;
 import boardClasses.Robber;
 import guiClasses.DiceGUI;
+import guiClasses.setupGameOfficial;
 import players.Player;
 import resourceClasses.Banker;
 
@@ -29,7 +30,8 @@ public class PlayGame {
 	 */
 	public PlayGame() {
 		board = new GameBoard(); // sets up the gameboard
-		setPlayers();
+		setupGameOfficial setup = new setupGameOfficial();
+		playerList = setup.getPlayers();
 		twoRoundsOfGameSetUp();
 		// the method we largely focused on
 		gameLoop();

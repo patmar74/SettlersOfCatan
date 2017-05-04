@@ -15,12 +15,15 @@ import javax.swing.JPanel;
 
 
 
-public class setupGameOfficial
-{
+public class setupGameOfficial {
 	Player player1= new Player();
 	Player player2 = new Player();
 	Player player3;
 	Player player4;
+
+	public setupGameOfficial(){
+
+	}
 	public void initialize()
 	{
 		int numPlayers;

@@ -5,7 +5,6 @@
 package guiClasses.boardGUI;
 
 import java.awt.Color;
-import java.awt.EventQueue;
 import java.awt.Font;
 import java.awt.Image;
 import java.awt.Point;
@@ -21,12 +20,9 @@ import boardClasses.GameBoard;
 import boardClasses.GridNode;
 import boardClasses.Tile;
 import players.City;
-import players.Player;
 import players.Road;
 import players.Settlement;
 import resourceClasses.ResourceType;
-
-import static java.awt.Color.RED;
 
 /*
  * The Robber needs to be painted, and Tokens need to be painted to start
@@ -34,10 +30,7 @@ import static java.awt.Color.RED;
 /**
  * This class sets the JPanel the game board is displayed on.
  * 
- * For testing purposes, this class has a JFrame that the panel is displayed on,
- * but later on this class will only have the JPanel, and it will be added to
- * the frame in a GameDisplay GUI that will have all the visible panels used on
- * the display.
+ * Now its actually a JPanel!
  * 
  * @author Trent
  *
@@ -47,16 +40,15 @@ public class CatanWindow {
 	// scale used to size the image icons
 	// this can be changed for different display sizes
 	// must be divisible by 4 for the Tile images to display properly
-	final int SCALE = 52;
+	int SCALE;
 	// the width of the JPanel panel
-	final int width = SCALE * 10;
+	int width;
 	// the width of the JPanel panel
-	final int height = SCALE * 8;
+	int height;
 	// adds a cushion around the game board for readability
-	final int BUFFER = SCALE / 2;
+	int BUFFER;
 	private int adjustRowHeight;
 	private JPanel panel;
-	private JFrame frame;
 
 	/**
 	 * Displays the game board
@@ -66,21 +58,34 @@ public class CatanWindow {
 	 *            visual representation for
 	 */
 	public CatanWindow(GameBoard gameBoard) {
+		setConstrains();
 		initialize(gameBoard);
 	}// end constructor
+
+	/**
+	 * sets the scale, buffer, and dimensions of the panel
+	 */
+	private void setConstrains() {
+		SCALE = 52;
+		BUFFER = SCALE / 2;
+		width = SCALE * 11;
+		height = SCALE * 9;
+
+	}// end setConstraints method
+
+	public int getPanelWidth() {
+		return width;
+	}
+
+	public int getPanelHeight() {
+		return height;
+	}
 
 	/**
 	 * Initialize the contents of the frame.
 	 */
 
 	private void initialize(GameBoard gameBoard) {
-		frame = new JFrame();
-
-		frame.setResizable(true);
-		frame.setBounds(100, 100, 700, 650);
-		frame.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
-		frame.getContentPane().setLayout(null);
-
 		panel = new JPanel();
 		// draws a boarder around the panel so I can see where it lies on the
 		// frame
@@ -88,9 +93,7 @@ public class CatanWindow {
 		// sets the dimensions of the panel, the buffer will be on the top,
 		// bottom, left and right, so 2 times the size of the BUFFER is added to
 		// each dimension
-		panel.setBounds(0, 0, width + BUFFER * 2, height + BUFFER * 2);
-		// adds the panel to the JFrame
-		frame.getContentPane().add(panel);
+		panel.setBounds(0, 0, width, height);
 		panel.setLayout(null);
 
 		// sets the list of tiles on the game board
@@ -137,9 +140,6 @@ public class CatanWindow {
 		// adds the labels showing where the harbors are
 		addHarborImages(gameBoard);
 
-		// once all tiles have been visually represented, the frame is set to
-		// visible
-		frame.setVisible(true);
 	}// end initialize method
 
 	/**
@@ -266,11 +266,11 @@ public class CatanWindow {
 		// makes the label opaque so the background color can be changed
 		buildingLabel.setOpaque(true);
 		// set the font type, style, and size to be used
-		buildingLabel.setFont(new Font(Font.SERIF, Font.PLAIN, 8));
+		buildingLabel.setFont(new Font(Font.SERIF, Font.BOLD, 14));
 		// sets the size as the minimum needed to display the text
 		buildingLabel.setSize(buildingLabel.getPreferredSize());
 		// centers the label over the point
-		int widthAdjustment = (int) (buildingLabel.getPreferredSize().getHeight()) / 2;
+		int widthAdjustment = (int) (buildingLabel.getPreferredSize().getWidth()) / 2;
 		int heightAdjustment = (int) (buildingLabel.getPreferredSize().getHeight()) / 2;
 
 		// sets the display location of the label
@@ -287,7 +287,7 @@ public class CatanWindow {
 	 * @param road
 	 *            - the road to be added to the gameBoard display
 	 */
-	public void addRoadToMap(Road road) {
+	public void addRoadToMap(Road road, JFrame masterFrame) {
 		// sets the player color
 		Color playerColor = road.getOwner().getPlayerColor();
 		// sets the road start and end Points
@@ -302,34 +302,13 @@ public class CatanWindow {
 		// sets the bounds to be the same as those of the panel it sits on
 		roadLine.setBounds(panel.getBounds());
 		// adds the road to the top layer
-		frame.getContentPane().add(roadLine, 0);
+		masterFrame.getContentPane().add(roadLine, 0);
 		roadLine.setLayout(null);
 
 	}// end addRoadToMap method
 
-
-
-	/**
-	 * Inner Main used for testing
-	 * 
-	 * @param args
-	 */
-	public static void main(String[] args) {
-		// creates a game board object to pass into the constructor
-		GameBoard gb = new GameBoard();
-
-		EventQueue.invokeLater(new Runnable() {
-			@Override
-			public void run() {
-				try {
-					CatanWindow window = new CatanWindow(gb);
-					window.frame.setVisible(true);
-				} catch (Exception e) {
-					e.printStackTrace();
-				}
-			}
-		});
-
+	public JPanel getJPanel() {
+		return panel;
 	}
 
 }// end CatanWindow class
