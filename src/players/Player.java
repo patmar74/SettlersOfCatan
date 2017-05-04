@@ -42,6 +42,18 @@ public class Player {
 	private ArrayList<GridNode> startingNodes = new ArrayList<>();
     private int longestRoadLength = 0;
 
+    public void setPlayerColor(Color playerColor) {
+        this.playerColor = playerColor;
+    }
+
+    public void setName(String name) {
+        this.name = name;
+    }
+
+    public Player(){
+
+    }
+
     public int getLongestRoadLength() {
         return longestRoadLength;
     }

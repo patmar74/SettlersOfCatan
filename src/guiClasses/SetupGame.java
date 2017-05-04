@@ -13,7 +13,7 @@ import javax.swing.JTextField;
 import javax.swing.JToggleButton;
 
 import players.Player;
-import players.playerColors;
+
 
 public class SetupGame {
 
