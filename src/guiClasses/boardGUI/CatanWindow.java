@@ -20,7 +20,13 @@ import javax.swing.JPanel;
 import boardClasses.GameBoard;
 import boardClasses.GridNode;
 import boardClasses.Tile;
+import players.City;
+import players.Player;
+import players.Road;
+import players.Settlement;
 import resourceClasses.ResourceType;
+
+import static java.awt.Color.RED;
 
 /*
  * The Robber needs to be painted, and Tokens need to be painted to start
@@ -69,6 +75,7 @@ public class CatanWindow {
 
 	private void initialize(GameBoard gameBoard) {
 		frame = new JFrame();
+
 		frame.setResizable(true);
 		frame.setBounds(100, 100, 700, 650);
 		frame.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
@@ -186,8 +193,25 @@ public class CatanWindow {
 			// sets the size as the minimum needed to display the text
 			harborLabel.setSize(harborLabel.getPreferredSize());
 			// centers the label on the harborLocation Point
-			int widthAdjustment = (int) (harborLabel.getPreferredSize().getWidth() / 2);
-			int heightAdjustment = (int) (harborLabel.getPreferredSize().getHeight() / 2);
+			int widthAdjustment;
+			int heightAdjustment;
+			// top harbors to above their location Point
+			if (y < 6) {
+				heightAdjustment = (int) (harborLabel.getPreferredSize().getHeight());
+			}
+			// leaves the harbors bellow the point
+			else {
+				heightAdjustment = 0;
+			}
+			// moves the harbor labels to the right of their location point
+			if (x < 5) {
+				widthAdjustment = (int) (harborLabel.getPreferredSize().getWidth());
+			}
+			// leaves the harbors on the left of the location Point
+			else {
+				widthAdjustment = 0;
+			}
+
 			// sets the display location of the label
 			harborLabel.setLocation(x * SCALE + BUFFER - widthAdjustment,
 					y * SCALE - adjustRowHeight + BUFFER - heightAdjustment);
@@ -196,6 +220,94 @@ public class CatanWindow {
 		}
 
 	}// end addHarborImages method
+
+	/**
+	 * Adds a visual representation of a settlement or city to the GameBoard.
+	 * This method is used for adding new settlements, and upgrading settlements
+	 * to cities
+	 * 
+	 * @param buildingBeingAdded
+	 *            - the Settlement of City object being added to the visual game
+	 *            board
+	 */
+	public void addSettlementOrCityToMap(Settlement buildingBeingAdded) {
+
+		Color playerColor = buildingBeingAdded.getPlayer().getPlayerColor();
+
+		// sets the location of the building being added to the map
+		int[] buildingLocation = buildingBeingAdded.getLocation();
+		// sets the x and y coordinates of the harborLocation
+		int x = buildingLocation[0];
+		int y = buildingLocation[1];
+
+		// sets the character symbol used to represent the settlement or city
+		String buildingText;
+		if (buildingBeingAdded instanceof Settlement) {
+			if (buildingBeingAdded instanceof City) {
+				buildingText = "C";
+			} else {
+				buildingText = "S";
+			}
+		} else {
+			buildingText = "";
+		}
+
+		// adjusts the row height to accommodate the fact that the Tiles are
+		// layered on top of one another
+		adjustRowHeight = SCALE / 4 * y;
+		if (y % 2 == 1) {
+			adjustRowHeight += SCALE / 4;
+		}
+		JLabel buildingLabel = new JLabel(buildingText);
+		// sets the text color as white and the background color as the player
+		// color
+		buildingLabel.setForeground(Color.white);
+		buildingLabel.setBackground(playerColor);
+		// makes the label opaque so the background color can be changed
+		buildingLabel.setOpaque(true);
+		// set the font type, style, and size to be used
+		buildingLabel.setFont(new Font(Font.SERIF, Font.PLAIN, 8));
+		// sets the size as the minimum needed to display the text
+		buildingLabel.setSize(buildingLabel.getPreferredSize());
+		// centers the label over the point
+		int widthAdjustment = (int) (buildingLabel.getPreferredSize().getHeight()) / 2;
+		int heightAdjustment = (int) (buildingLabel.getPreferredSize().getHeight()) / 2;
+
+		// sets the display location of the label
+		buildingLabel.setLocation(x * SCALE + BUFFER - widthAdjustment,
+				y * SCALE - adjustRowHeight + BUFFER - heightAdjustment);
+		// adds the label to the panel on the top layer
+		panel.add(buildingLabel, 0);
+
+	}// end addSettlementOrCityToMap method
+
+	/**
+	 * Draws a Road onto the game board
+	 * 
+	 * @param road
+	 *            - the road to be added to the gameBoard display
+	 */
+	public void addRoadToMap(Road road) {
+		// sets the player color
+		Color playerColor = road.getOwner().getPlayerColor();
+		// sets the road start and end Points
+		Point startPoint = road.getStartNode().getLocation();
+		Point endPoint = road.getEndNode().getLocation();
+
+		// creates panel with the line graphic of the road
+		LineGraphic roadLine = new LineGraphic(startPoint, endPoint, playerColor, SCALE, BUFFER);
+		// makes that panel see through so only the road will show up when it is
+		// added to the frame
+		roadLine.setOpaque(false);
+		// sets the bounds to be the same as those of the panel it sits on
+		roadLine.setBounds(panel.getBounds());
+		// adds the road to the top layer
+		frame.getContentPane().add(roadLine, 0);
+		roadLine.setLayout(null);
+
+	}// end addRoadToMap method
+
+
 
 	/**
 	 * Inner Main used for testing
@@ -217,5 +329,7 @@ public class CatanWindow {
 				}
 			}
 		});
+
 	}
+
 }// end CatanWindow class
